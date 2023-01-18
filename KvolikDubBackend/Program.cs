@@ -1,4 +1,6 @@
 using KvolikDubBackend.Models;
+using KvolikDubBackend.Services;
+using KvolikDubBackend.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(AppMappingProfile));
+
+builder.Services.AddScoped<IAnimeService, AnimeService>();
 
 //DB connection
 var connection = builder.Configuration.GetConnectionString("Postgres");

@@ -1,13 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "jVu26FAl3nQJlNraj95uFW38v84yJs+FDEDHCr8eL1rgm5hNBQ2Ndff1c2fzMx6aGkAhDwiw84DbnFWqspJbIg==",
+  "dgSpecHash": "L9czy9/JKjohYY2fCF0jvR+nmubeMCuPdN5+GyXT8euRefAOyvjR7ISdFLLwdQ76Npw/+67u9WCMZe41NkQF8A==",
   "success": true,
   "projectFilePath": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\KvolikDubBackend.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\пк\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\пк\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
     "C:\\Users\\пк\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\пк\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.10\\microsoft.aspnetcore.authentication.jwtbearer.6.0.10.nupkg.sha512",
     "C:\\Users\\пк\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.1\\microsoft.aspnetcore.openapi.7.0.1.nupkg.sha512",
-    "C:\\Users\\пк\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\пк\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\пк\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.10\\microsoft.entityframeworkcore.6.0.10.nupkg.sha512",
     "C:\\Users\\пк\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.10\\microsoft.entityframeworkcore.abstractions.6.0.10.nupkg.sha512",
     "C:\\Users\\пк\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.10\\microsoft.entityframeworkcore.analyzers.6.0.10.nupkg.sha512",

@@ -45,3 +45,5 @@ D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Microsoft.Identit
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Npgsql.dll
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\AutoMapper.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
