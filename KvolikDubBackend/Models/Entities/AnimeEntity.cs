@@ -21,7 +21,7 @@ public class AnimeEntity
     
     public String Type { get; set; }
     
-    public int EpisodesAmount { get; set; }
+    public int? EpisodesAmount { get; set; }
 
     public List<String> Genres { get; set; } = new();
     

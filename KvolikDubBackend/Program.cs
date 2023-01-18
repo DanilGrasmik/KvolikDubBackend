@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using KvolikDubBackend.Models;
 using KvolikDubBackend.Services;
 using KvolikDubBackend.Services.ExceptionHandler;
@@ -14,6 +15,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 
 builder.Services.AddScoped<IAnimeService, AnimeService>();
+
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options => 
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 //DB connection
 var connection = builder.Configuration.GetConnectionString("Postgres");

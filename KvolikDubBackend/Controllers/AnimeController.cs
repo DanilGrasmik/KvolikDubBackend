@@ -14,7 +14,10 @@ public class AnimeController : ControllerBase
     {
         _animeService = animeService;
     }
-
+    
+    /// <summary>
+    /// Получить информацию о конкретном аниме
+    /// </summary>
     [HttpGet]
     [Route("{id}")]
     public async Task<AnimeDetailsDto> GetAnimeDetails(Guid id)
@@ -22,6 +25,9 @@ public class AnimeController : ControllerBase
         return await _animeService.GetAnimeDetails(id);
     }
 
+    /// <summary>
+    /// Получить список аниме для главной страницы
+    /// </summary>
     [HttpGet]
     public async Task<List<AnimeListElementDto>> GetAnimeList()
     {
