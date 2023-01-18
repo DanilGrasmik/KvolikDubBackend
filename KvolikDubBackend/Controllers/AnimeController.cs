@@ -15,7 +15,7 @@ public class AnimeController : ControllerBase
     }
 
     [HttpGet]
-    [Route("id")]
+    [Route("{id}")]
     public async Task<AnimeDetailsDto> GetAnimeDetails(Guid id)
     {
         return await _animeService.GetAnimeDetails(id);

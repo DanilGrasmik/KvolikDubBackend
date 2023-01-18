@@ -1,5 +1,6 @@
 using KvolikDubBackend.Models;
 using KvolikDubBackend.Services;
+using KvolikDubBackend.Services.ExceptionHandler;
 using KvolikDubBackend.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,7 @@ var connection = builder.Configuration.GetConnectionString("Postgres");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connection));
 
 var app = builder.Build();
+app.UseMiddleware<ExceptionMiddlewareService>();
 
 //DB init and update
 using var serviceScope = app.Services.CreateScope();

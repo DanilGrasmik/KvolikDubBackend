@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KvolikDubBackend.Exceptions;
 using KvolikDubBackend.Models;
 using KvolikDubBackend.Models.Dtos;
 using KvolikDubBackend.Models.Entities;
@@ -23,7 +24,7 @@ public class AnimeService : IAnimeService
         AnimeEntity animeEntity = await _context
             .Animes
             .Where(anime => anime.Id == id)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find anime with id '{id}'");
 
         var animeDetailsDto = _mapping.Map<AnimeDetailsDto>(animeEntity);
 
