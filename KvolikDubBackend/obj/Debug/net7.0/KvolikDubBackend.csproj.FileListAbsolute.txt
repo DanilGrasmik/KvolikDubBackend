@@ -31,3 +31,17 @@ D:\prog\web\KvolikDubBackend\KvolikDubBackend\obj\Debug\net7.0\refint\KvolikDubB
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\obj\Debug\net7.0\KvolikDubBackend.pdb
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\obj\Debug\net7.0\KvolikDubBackend.genruntimeconfig.cache
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\obj\Debug\net7.0\ref\KvolikDubBackend.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Humanizer.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Npgsql.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll

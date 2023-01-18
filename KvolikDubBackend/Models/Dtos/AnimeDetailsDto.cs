@@ -8,6 +8,8 @@ public class AnimeDetailsDto
     [Required]
     public Guid id { get; set; }
     
+    public string shortName { get; set; }
+    
     [MinLength(1, ErrorMessage = "name min length is 1")]
     public String name { get; set; }
     
@@ -20,20 +22,20 @@ public class AnimeDetailsDto
 
     public List<String> genres { get; set; } = new();
     
-    public PrimarySource primarySource { get; set; }
+    public PrimarySource? primarySource { get; set; }
     
-    public DateTime? season { get; set; }
-    
-    public DateTime? realeseFrom { get; set; }
+    public DateTime? releaseFrom { get; set; }
 
-    public DateTime? realeseBy { get; set; }
+    public DateTime? releaseBy { get; set; }
     
     [Range(0, 21, ErrorMessage = "Range for ageLimit is 0 to 21")]
     public int ageLimit { get; set; }
     
     public int duration { get; set; }
     
-    public String description { get; set; }
+    public String? description { get; set; }
+    
+    public ExitStatus exitStatus { get; set; }
     
     //TODO: image ???
     public List<String> frames { get; set; } = new();
@@ -43,6 +45,5 @@ public class AnimeDetailsDto
     
     public String? trailerUrl { get; set; }
     
-    //TODO: how to do episodes ???
-    public List<String> episodes { get; set; } = new();
+    //public List<String> episodes { get; set; } = new();
 }

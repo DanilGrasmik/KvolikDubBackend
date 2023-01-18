@@ -17,20 +17,21 @@ public class CreateAnimeDto
 
     public List<String> genres { get; set; } = new();
     
-    public PrimarySource primarySource { get; set; }
+    public PrimarySource? primarySource { get; set; }
     
-    public DateTime? season { get; set; }
-    
-    public DateTime? realeseFrom { get; set; }
+    public DateTime? releaseFrom { get; set; }
 
-    public DateTime? realeseBy { get; set; }
+    public DateTime? releaseBy { get; set; }
     
     [Range(0, 21, ErrorMessage = "Range for ageLimit is 0 to 21")]
     public int ageLimit { get; set; }
     
     public int duration { get; set; }
     
-    public String description { get; set; }
+    public String? description { get; set; }
+    
+    [Required]
+    public ExitStatus exitStatus { get; set; }
     
     //TODO: image ???
     public List<String> frames { get; set; } = new();
