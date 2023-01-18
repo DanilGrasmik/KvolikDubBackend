@@ -23,7 +23,7 @@ public class AnimeListElementDto
     
     public String? description { get; set; }
     
-    public DateTime year { get; set; }
+    public DateTime? releaseFrom { get; set; }
     
     public String imageUrl { get; set; }
     
