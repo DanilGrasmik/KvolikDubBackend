@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KvolikDubBackend</name>
+    </assembly>
+    <members>
+        <member name="M:KvolikDubBackend.Controllers.AnimeController.GetAnimeDetails(System.Guid)">
+            <summary>
+            Получить информацию о конкретном аниме
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.AnimeController.GetVoicedAnimeList(System.String)">
+            <summary>
+            Получить список озвученных аниме (если в URL нет search, то выводятся все аниме)
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.AnimeController.GetNotVoicedAnimeList(System.String)">
+            <summary>
+            Получить список неозвученных аниме (если в URL нет search, то выводятся все аниме)
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.AnimeController.GetRandomAnimeDetails">
+            <summary>
+            Поулчить детали случайного аниме
+            </summary>
+        </member>
+    </members>
+</doc>

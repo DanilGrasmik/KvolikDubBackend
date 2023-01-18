@@ -26,18 +26,43 @@ public class AnimeController : ControllerBase
     }
 
     /// <summary>
-    /// Получить список аниме для главной страницы
+    /// Получить список озвученных аниме (если в URL нет search, то выводятся все аниме)
     /// </summary>
     [HttpGet]
-    public async Task<List<AnimeListElementDto>> GetAnimeList()
+    public async Task<List<AnimeListElementDto>> GetVoicedAnimeList(String? search)
     {
-        return await _animeService.GetAnimeList();
+        return await _animeService.GetVoicedAnimeList(search, HttpContext.Request.Query);
+    }
+    
+    /// <summary>
+    /// Получить список неозвученных аниме (если в URL нет search, то выводятся все аниме)
+    /// </summary>
+    [HttpGet]
+    [Route("soon")]
+    public async Task<List<AnimeListElementDto>> GetNotVoicedAnimeList(String? search)
+    {
+        return await _animeService.GetNotVoicedAnimeList(search, HttpContext.Request.Query);
     }
 
+    /// <summary>
+    /// Поулчить детали случайного аниме
+    /// </summary>
     [HttpGet]
     [Route("random")]
     public async Task<AnimeDetailsDto> GetRandomAnimeDetails()
     {
         return await _animeService.GetRandomAnimeDetails();
     }
+
+    /*[HttpGet]
+    public async Task<List<AnimeListElementDto>> GetVoicedAnimesBySearch(String search)
+    {
+        return await _animeService.GetVoicedAnimesBySearch(search);
+    }
+    
+    [HttpGet]
+    public async Task<List<AnimeListElementDto>> GetNotVoicedAnimesBySearch(String search)
+    {
+        return await _animeService.GetNotVoicedAnimesBySearch(search);
+    }*/
 }

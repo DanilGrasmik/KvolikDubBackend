@@ -32,12 +32,49 @@ public class AnimeService : IAnimeService
         return animeDetailsDto;
     }
 
-    public async Task<List<AnimeListElementDto>> GetAnimeList()
+    public async Task<List<AnimeListElementDto>> GetVoicedAnimeList(String? search, IQueryCollection query)
     {
+        CheckQueryAnimeList(query);
+        search = search?.ToLower();
         var animeEntities = await _context
             .Animes
             .Where(anime => anime.VoiceoverStatus == VoiceoverStatus.Voiced)
             .ToListAsync();
+
+        if (search != null)
+        {
+            animeEntities = animeEntities
+                .Where(anime => anime.Name.ToLower().Contains(search) || anime.NameEng.ToLower().Contains(search))
+                .ToList();
+        }
+        
+        List<AnimeListElementDto> animeDtos = new List<AnimeListElementDto>();
+
+        foreach (var animeEntity in animeEntities)
+        {
+            AnimeListElementDto animeListElementDto = _mapping.Map<AnimeListElementDto>(animeEntity);
+            animeDtos.Add(animeListElementDto);
+        }
+
+        return animeDtos;
+    }
+
+    public async Task<List<AnimeListElementDto>> GetNotVoicedAnimeList(string? search, IQueryCollection query)
+    {
+        CheckQueryAnimeList(query);
+        search = search?.ToLower();
+        var animeEntities = await _context
+            .Animes
+            .Where(anime => anime.VoiceoverStatus == VoiceoverStatus.NotVoiced)
+            .ToListAsync();
+
+        if (search != null)
+        {
+            animeEntities = animeEntities
+                .Where(anime => anime.Name.ToLower().Contains(search) || anime.NameEng.ToLower().Contains(search))
+                .ToList();
+        }
+        
         List<AnimeListElementDto> animeDtos = new List<AnimeListElementDto>();
 
         foreach (var animeEntity in animeEntities)
@@ -57,5 +94,16 @@ public class AnimeService : IAnimeService
         Random random = new Random();
         int randomAnimeIndex = random.Next(0, animeEntities.Count);
         return await GetAnimeDetails(animeEntities[randomAnimeIndex].Id);
+    }
+
+    private void CheckQueryAnimeList(IQueryCollection query)
+    {
+        foreach (var param in query)
+        {
+            if (param.Key != "search")
+            {
+                throw new BadRequestException($"Can't identify query param with key '{param.Key}'");
+            }
+        }
     }
 }
