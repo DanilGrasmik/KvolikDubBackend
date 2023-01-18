@@ -10,5 +10,7 @@ public class AppMappingProfile : Profile
     public AppMappingProfile()
     {			
         CreateMap<AnimeDetailsDto, AnimeEntity>().ReverseMap();
+        CreateMap<AnimeEntity, AnimeListElementDto>();
+
     }
 }

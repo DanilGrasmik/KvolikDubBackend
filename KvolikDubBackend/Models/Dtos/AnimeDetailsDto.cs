@@ -44,6 +44,6 @@ public class AnimeDetailsDto
     public String imageUrl { get; set; }
     
     public String? trailerUrl { get; set; }
-    
+
     //public List<String> episodes { get; set; } = new();
 }

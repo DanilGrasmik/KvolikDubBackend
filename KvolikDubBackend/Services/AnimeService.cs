@@ -3,6 +3,7 @@ using KvolikDubBackend.Exceptions;
 using KvolikDubBackend.Models;
 using KvolikDubBackend.Models.Dtos;
 using KvolikDubBackend.Models.Entities;
+using KvolikDubBackend.Models.Enums;
 using KvolikDubBackend.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,5 +30,22 @@ public class AnimeService : IAnimeService
         var animeDetailsDto = _mapping.Map<AnimeDetailsDto>(animeEntity);
 
         return animeDetailsDto;
+    }
+
+    public async Task<List<AnimeListElementDto>> GetAnimeList()
+    {
+        var animeEntities = await _context
+            .Animes
+            .Where(anime => anime.VoiceoverStatus == VoiceoverStatus.Voiced)
+            .ToListAsync();
+        List<AnimeListElementDto> animeDtos = new List<AnimeListElementDto>();
+
+        foreach (var animeEntity in animeEntities)
+        {
+            AnimeListElementDto animeListElementDto = _mapping.Map<AnimeListElementDto>(animeEntity);
+            animeDtos.Add(animeListElementDto);
+        }
+
+        return animeDtos;
     }
 }

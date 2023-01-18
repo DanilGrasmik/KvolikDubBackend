@@ -46,6 +46,8 @@ public class AnimeEntity
     public String ImageUrl { get; set; }
     
     public String? TrailerUrl { get; set; }
+    
+    public VoiceoverStatus VoiceoverStatus { get; set; }
 
     //public List<RatingEntity> Ratings { get; set; } = new();
 
