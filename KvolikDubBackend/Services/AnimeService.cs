@@ -48,4 +48,14 @@ public class AnimeService : IAnimeService
 
         return animeDtos;
     }
+
+    public async Task<AnimeDetailsDto> GetRandomAnimeDetails()
+    {
+        var animeEntities = await _context
+            .Animes
+            .ToListAsync();
+        Random random = new Random();
+        int randomAnimeIndex = random.Next(0, animeEntities.Count);
+        return await GetAnimeDetails(animeEntities[randomAnimeIndex].Id);
+    }
 }

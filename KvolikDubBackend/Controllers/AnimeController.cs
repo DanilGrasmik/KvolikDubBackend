@@ -33,4 +33,11 @@ public class AnimeController : ControllerBase
     {
         return await _animeService.GetAnimeList();
     }
+
+    [HttpGet]
+    [Route("random")]
+    public async Task<AnimeDetailsDto> GetRandomAnimeDetails()
+    {
+        return await _animeService.GetRandomAnimeDetails();
+    }
 }
