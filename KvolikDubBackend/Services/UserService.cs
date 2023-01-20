@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using KvolikDubBackend.Configurations;
 using KvolikDubBackend.Exceptions;
 using KvolikDubBackend.Models;
@@ -21,7 +22,7 @@ public class UserService : IUserService
     }
     public async Task<TokenDto> RegisterUser(UserRegisterDto userRegisterDto)
     {
-        await CheckRegisterValidation(userRegisterDto);
+         await CheckRegisterValidation(userRegisterDto);
         
         UserEntity userEntity = new UserEntity()
         {
@@ -69,7 +70,26 @@ public class UserService : IUserService
 
         return result;
     }
-    
+
+    public async Task<String> LogoutUser(IHeaderDictionary headers)
+    {
+        var token = GetToken(headers);
+        
+        var handler = new JwtSecurityTokenHandler();
+        var expiredDate = handler.ReadJwtToken(token).ValidTo;
+
+        var tokenEntity = new TokenEntity
+        {
+            Id = Guid.NewGuid(),
+            Token = token,
+            ExpiredDate = expiredDate
+        };
+
+        await _context.Tokens.AddAsync(tokenEntity);
+        await _context.SaveChangesAsync();
+        return "Logged out";
+    }
+
     private async Task<ClaimsIdentity> GetIdentity(string username, string password)
     {
         var userEntity = await _context
@@ -100,6 +120,10 @@ public class UserService : IUserService
 
     private async Task CheckRegisterValidation(UserRegisterDto userRegisterDto)
     {
+        if (userRegisterDto.password == null || userRegisterDto.username == null)
+        {
+            throw new BadRequestException("Incorrect model in request");
+        }
         if (userRegisterDto.password.Length < 6 || userRegisterDto.password.Length > 30)
         {
             throw new BadRequestException("Password length must be in range 6 to 30");
@@ -117,5 +141,27 @@ public class UserService : IUserService
         {
             throw new BadRequestException($"User with username '{userRegisterDto.username}' already exists");
         }
+    }
+    
+    private static string GetToken(IHeaderDictionary headersDictionary)
+    {
+        var headers = new Dictionary<string, string>();
+
+        foreach (var header in headersDictionary)
+        {
+            headers.Add(header.Key, header.Value);
+        }
+
+        var authorizationHeader = headers["Authorization"];
+
+        var regex = new Regex(@"\S+\.\S+\.\S+");
+        var matches = regex.Matches(authorizationHeader);
+
+        if (matches.Count <= 0)
+        {
+            throw new BadRequestException("Invalid token in authorization header");
+        }
+
+        return matches[0].Value;
     }
 }
