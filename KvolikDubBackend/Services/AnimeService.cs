@@ -20,12 +20,12 @@ public class AnimeService : IAnimeService
         _mapping = mapping;
     }
 
-    public async Task<AnimeDetailsDto> GetAnimeDetails(Guid id)
+    public async Task<AnimeDetailsDto> GetAnimeDetails(String shortName)
     {
         AnimeEntity animeEntity = await _context
             .Animes
-            .Where(anime => anime.Id == id)
-            .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find anime with id '{id}'");
+            .Where(anime => anime.ShortName == shortName)
+            .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find anime with shortName '{shortName}'");
 
         var animeDetailsDto = _mapping.Map<AnimeDetailsDto>(animeEntity);
 
@@ -93,7 +93,7 @@ public class AnimeService : IAnimeService
             .ToListAsync();
         Random random = new Random();
         int randomAnimeIndex = random.Next(0, animeEntities.Count);
-        return await GetAnimeDetails(animeEntities[randomAnimeIndex].Id);
+        return await GetAnimeDetails(animeEntities[randomAnimeIndex].ShortName);
     }
 
     private void CheckQueryAnimeList(IQueryCollection query)

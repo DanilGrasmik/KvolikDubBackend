@@ -5,7 +5,7 @@ namespace KvolikDubBackend.Services.Interfaces;
 
 public interface IAnimeService
 {
-    Task<AnimeDetailsDto> GetAnimeDetails(Guid id);
+    Task<AnimeDetailsDto> GetAnimeDetails(String shortName);
     Task<List<AnimeListElementDto>> GetVoicedAnimeList(String? search, IQueryCollection query);
     Task<List<AnimeListElementDto>> GetNotVoicedAnimeList(String? search, IQueryCollection query);
     Task<AnimeDetailsDto> GetRandomAnimeDetails();

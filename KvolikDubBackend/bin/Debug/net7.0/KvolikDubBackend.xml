@@ -4,7 +4,7 @@
         <name>KvolikDubBackend</name>
     </assembly>
     <members>
-        <member name="M:KvolikDubBackend.Controllers.AnimeController.GetAnimeDetails(System.Guid)">
+        <member name="M:KvolikDubBackend.Controllers.AnimeController.GetAnimeDetails(System.String)">
             <summary>
             Получить информацию о конкретном аниме
             </summary>

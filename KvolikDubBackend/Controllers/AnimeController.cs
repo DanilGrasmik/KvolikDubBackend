@@ -19,10 +19,10 @@ public class AnimeController : ControllerBase
     /// Получить информацию о конкретном аниме
     /// </summary>
     [HttpGet]
-    [Route("{id}")]
-    public async Task<AnimeDetailsDto> GetAnimeDetails(Guid id)
+    [Route("{shortName}")]
+    public async Task<AnimeDetailsDto> GetAnimeDetails(String shortName)
     {
-        return await _animeService.GetAnimeDetails(id);
+        return await _animeService.GetAnimeDetails(shortName);
     }
 
     /// <summary>

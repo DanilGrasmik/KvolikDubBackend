@@ -1,0 +1,121 @@
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using KvolikDubBackend.Configurations;
+using KvolikDubBackend.Exceptions;
+using KvolikDubBackend.Models;
+using KvolikDubBackend.Models.Dtos;
+using KvolikDubBackend.Models.Entities;
+using KvolikDubBackend.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+
+namespace KvolikDubBackend.Services;
+
+public class UserService : IUserService
+{
+    private readonly AppDbContext _context;
+
+    public UserService(AppDbContext context)
+    {
+        _context = context;
+    }
+    public async Task<TokenDto> RegisterUser(UserRegisterDto userRegisterDto)
+    {
+        await CheckRegisterValidation(userRegisterDto);
+        
+        UserEntity userEntity = new UserEntity()
+        {
+            Id = new Guid(),
+            Username = userRegisterDto.username,
+            Name = userRegisterDto.name,
+            AvatarImageUrl = "https://sun9-east.userapi.com/sun9-58/s/v1/ig2/wgxhVCsTLeNhC3Ue8gnd8n6QkpilZZHTxT61fUXzPXfWqjH8vTsui8fZMdX3VvBHuhMEKYZOkZPosFeMS8CzElzc.jpg?size=712x1044&quality=96&type=album",
+            HashedPassword = BCrypt.Net.BCrypt.HashPassword(userRegisterDto.password),
+            IsAdmin = false
+        };
+        
+        await _context.Users.AddAsync(userEntity);
+        await _context.SaveChangesAsync();
+
+        LoginCredentials loginCredentials = new LoginCredentials()
+        {
+            username = userRegisterDto.username,
+            password = userRegisterDto.password
+        };
+
+        return await LoginUser(loginCredentials);
+    }
+
+    public async Task<TokenDto> LoginUser(LoginCredentials loginCredentials)
+    {
+        var identity = await GetIdentity(loginCredentials.username, loginCredentials.password);
+
+        var now = DateTime.UtcNow;
+
+        var jwt = new JwtSecurityToken(
+            issuer: JwtConfig.Issuer,
+            audience: JwtConfig.Audience,
+            notBefore: now,
+            claims: identity.Claims,
+            expires: now.AddMinutes(JwtConfig.Lifetime),
+            signingCredentials: new SigningCredentials(JwtConfig.GetSymmetricSecurityKey(),
+                SecurityAlgorithms.HmacSha256));
+
+        var encodeJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+        var result = new TokenDto()
+        {
+            token = encodeJwt
+        };
+
+        return result;
+    }
+    
+    private async Task<ClaimsIdentity> GetIdentity(string username, string password)
+    {
+        var userEntity = await _context
+            .Users
+            .Where(x => x.Username == username)
+            .FirstOrDefaultAsync() ?? throw new BadRequestException("Login failed");
+
+        if (!BCrypt.Net.BCrypt.Verify(password, userEntity.HashedPassword))
+        {
+            throw new BadRequestException("Login failed");
+        }
+
+        var claims = new List<Claim>
+        {
+            new(ClaimsIdentity.DefaultNameClaimType, userEntity.Username)
+        };
+
+        var claimsIdentity = new ClaimsIdentity
+        (
+            claims,
+            "Token",
+            ClaimsIdentity.DefaultNameClaimType,
+            "User"
+        );
+
+        return claimsIdentity;
+    }
+
+    private async Task CheckRegisterValidation(UserRegisterDto userRegisterDto)
+    {
+        if (userRegisterDto.password.Length < 6 || userRegisterDto.password.Length > 30)
+        {
+            throw new BadRequestException("Password length must be in range 6 to 30");
+        }
+        if (userRegisterDto.username.Length < 2 || userRegisterDto.username.Length > 25)
+        {
+            throw new BadRequestException("Username length must be in range 2 to 25");
+        }
+
+        UserEntity? userEntity = await _context
+            .Users
+            .Where(user => user.Username == userRegisterDto.username)
+            .FirstOrDefaultAsync();
+        if (userEntity != null)
+        {
+            throw new BadRequestException($"User with username '{userRegisterDto.username}' already exists");
+        }
+    }
+}

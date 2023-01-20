@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "L9czy9/JKjohYY2fCF0jvR+nmubeMCuPdN5+GyXT8euRefAOyvjR7ISdFLLwdQ76Npw/+67u9WCMZe41NkQF8A==",
+  "dgSpecHash": "1DV6pjskWKmTBEci+poRPVJB8CZy9hbrV9CoBtNMYnJkE43YuQYnVi9UdoKWJ1H9RWp60d+aFqXFYdN9q59oew==",
   "success": true,
   "projectFilePath": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\KvolikDubBackend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\пк\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\пк\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
+    "C:\\Users\\пк\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\пк\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\пк\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.10\\microsoft.aspnetcore.authentication.jwtbearer.6.0.10.nupkg.sha512",
     "C:\\Users\\пк\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.1\\microsoft.aspnetcore.openapi.7.0.1.nupkg.sha512",

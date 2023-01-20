@@ -20,6 +20,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 
 builder.Services.AddScoped<IAnimeService, AnimeService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services
     .AddControllers()

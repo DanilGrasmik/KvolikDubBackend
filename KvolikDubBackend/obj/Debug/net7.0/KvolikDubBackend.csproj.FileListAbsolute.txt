@@ -49,3 +49,4 @@ D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\AutoMapper.dll
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\KvolikDubBackend.xml
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\obj\Debug\net7.0\KvolikDubBackend.xml
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\BCrypt.Net-Next.dll
