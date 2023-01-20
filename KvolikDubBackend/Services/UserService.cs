@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
+using AutoMapper;
 using KvolikDubBackend.Configurations;
 using KvolikDubBackend.Exceptions;
 using KvolikDubBackend.Models;
@@ -15,13 +16,16 @@ namespace KvolikDubBackend.Services;
 public class UserService : IUserService
 {
     private readonly AppDbContext _context;
+    private readonly IMapper _mapper;
 
-    public UserService(AppDbContext context)
+    public UserService(AppDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
     public async Task<TokenDto> RegisterUser(UserRegisterDto userRegisterDto)
     {
+        //TODO: Confirm password 
          await CheckRegisterValidation(userRegisterDto);
         
         UserEntity userEntity = new UserEntity()
@@ -88,6 +92,34 @@ public class UserService : IUserService
         await _context.Tokens.AddAsync(tokenEntity);
         await _context.SaveChangesAsync();
         return "Logged out";
+    }
+
+    public async Task<ProfileInfoDto> GetProfile(string username)
+    {
+        var userEntity = await _context
+            .Users
+            .Where(user => user.Username == username)
+            .FirstOrDefaultAsync();
+        
+        ProfileInfoDto profileInfoDto = _mapper.Map<ProfileInfoDto>(userEntity);
+        return profileInfoDto;
+    }
+
+    public async Task EditProfile(EditProfileDto editProfileDto, String username)
+    {
+        var userEntity = await _context
+            .Users
+            .Where(user => user.Username == username)
+            .FirstOrDefaultAsync();
+
+        if (editProfileDto.name == null)
+        {
+            throw new BadRequestException("name field is required");
+        }
+        
+        userEntity.Name = editProfileDto.name;
+        
+        await _context.SaveChangesAsync();
     }
 
     private async Task<ClaimsIdentity> GetIdentity(string username, string password)

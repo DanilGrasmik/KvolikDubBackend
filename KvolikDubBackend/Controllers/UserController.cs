@@ -35,4 +35,18 @@ public class UserController : ControllerBase
     {
         return await _usersService.LogoutUser(HttpContext.Request.Headers);
     }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<ProfileInfoDto> GetProfile()
+    {
+        return await _usersService.GetProfile(User.Identity.Name);
+    }
+
+    [HttpPut]
+    [Authorize]
+    public async Task EditProfile([FromBody] EditProfileDto editProfileDto)
+    {
+        await _usersService.EditProfile(editProfileDto, User.Identity.Name);
+    }
 }
