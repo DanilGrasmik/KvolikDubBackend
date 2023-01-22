@@ -16,6 +16,9 @@ public class FavoritesController : ControllerBase
         _favoritesService = favoritesService;
     }
 
+    /// <summary>
+    /// Добавить аниме в избранное
+    /// </summary>
     [HttpPost]
     [Authorize]
     [Route("{id}")]
@@ -24,6 +27,9 @@ public class FavoritesController : ControllerBase
         await _favoritesService.AddAnimeToFavorites(id, User.Identity.Name);
     }
 
+    /// <summary>
+    /// Получить список избранных
+    /// </summary>
     [HttpGet]
     [Authorize]
     public async Task<List<AnimeListElementDto>> GetFavorites()
@@ -31,6 +37,9 @@ public class FavoritesController : ControllerBase
         return await _favoritesService.GetFavoritesAnimes(User.Identity.Name);
     }
 
+    /// <summary>
+    /// Удалить аниме из избранного  
+    /// </summary>
     [HttpDelete]
     [Authorize]
     [Route("{id}")]

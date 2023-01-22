@@ -54,6 +54,13 @@ public class UserController : ControllerBase
     {
         return await _usersService.GetProfile(User.Identity.Name);
     }
+    
+    [HttpGet]
+    [Route("{username}")]
+    public async Task<ProfileInfoDto> GetOtherProfile(String username)
+    {
+        return await _usersService.GetProfile(username);
+    }
 
     /// <summary>
     /// Изменить инф-ию о пользователе

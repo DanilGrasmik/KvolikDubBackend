@@ -24,6 +24,21 @@
             Поулчить детали случайного аниме
             </summary>
         </member>
+        <member name="M:KvolikDubBackend.Controllers.FavoritesController.AddAnimeToFavorites(System.Guid)">
+            <summary>
+            Добавить аниме в избранное
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.FavoritesController.GetFavorites">
+            <summary>
+            Получить список избранных
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.FavoritesController.DeleteAnime(System.Guid)">
+            <summary>
+            Удалить аниме из избранного  
+            </summary>
+        </member>
         <member name="M:KvolikDubBackend.Controllers.UserController.RegisterUser(KvolikDubBackend.Models.Dtos.UserRegisterDto)">
             <summary>
             Зарегистрировать пользователя
