@@ -29,6 +29,10 @@ public class FavoritesService : IFavoritesService
             .Animes
             .Where(anime => anime.Id == animeId)
             .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find anime with id '{animeId}'");
+        if (userEntity.FavoriteAnimes.Contains(animeEntity))
+        {
+            throw new ConflictException($"Anime with Id '{animeId}' is already in favorites");
+        }
         
         userEntity.FavoriteAnimes.Add(animeEntity);
 
@@ -51,5 +55,22 @@ public class FavoritesService : IFavoritesService
         }
 
         return favoritesAnimeDtos;
+    }
+
+    public async Task DeleteAnimeFromFavorites(Guid animeId, String username)
+    {
+        var userEntity = await _context
+            .Users
+            .Where(user => user.Username == username)
+            .Include(user => user.FavoriteAnimes)
+            .FirstOrDefaultAsync();
+
+        var anime = userEntity
+            .FavoriteAnimes
+            .FirstOrDefault(anime => anime.Id == animeId) 
+                    ?? throw new NotFoundException($"Cant find anime with Id '{animeId}'");
+
+        userEntity.FavoriteAnimes.Remove(anime);
+        await _context.SaveChangesAsync();
     }
 }

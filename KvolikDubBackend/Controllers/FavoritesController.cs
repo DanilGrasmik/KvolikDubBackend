@@ -1,4 +1,5 @@
-﻿using KvolikDubBackend.Models.Dtos;
+﻿using System.ComponentModel.DataAnnotations;
+using KvolikDubBackend.Models.Dtos;
 using KvolikDubBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,5 +29,13 @@ public class FavoritesController : ControllerBase
     public async Task<List<AnimeListElementDto>> GetFavorites()
     {
         return await _favoritesService.GetFavoritesAnimes(User.Identity.Name);
+    }
+
+    [HttpDelete]
+    [Authorize]
+    [Route("{id}")]
+    public async Task DeleteAnime(Guid id)
+    {
+        await _favoritesService.DeleteAnimeFromFavorites(id, User.Identity.Name);
     }
 }

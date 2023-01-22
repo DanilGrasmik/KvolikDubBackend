@@ -171,7 +171,7 @@ public class UserService : IUserService
             .FirstOrDefaultAsync();
         if (userEntity != null)
         {
-            throw new BadRequestException($"User with username '{userRegisterDto.username}' already exists");
+            throw new ConflictException($"User with username '{userRegisterDto.username}' already exists");
         }
     }
     
