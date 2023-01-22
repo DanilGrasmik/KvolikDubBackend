@@ -24,5 +24,30 @@
             Поулчить детали случайного аниме
             </summary>
         </member>
+        <member name="M:KvolikDubBackend.Controllers.UserController.RegisterUser(KvolikDubBackend.Models.Dtos.UserRegisterDto)">
+            <summary>
+            Зарегистрировать пользователя
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.UserController.LoginUser(KvolikDubBackend.Models.Dtos.LoginCredentials)">
+            <summary>
+            Авторизация пользователя
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.UserController.LogoutUser">
+            <summary>
+            Выйти из аккаунта
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.UserController.GetProfile">
+            <summary>
+            Получить инф-ию о пользователе
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.UserController.EditProfile(KvolikDubBackend.Models.Dtos.EditProfileDto)">
+            <summary>
+            Изменить инф-ию о пользователе
+            </summary>
+        </member>
     </members>
 </doc>

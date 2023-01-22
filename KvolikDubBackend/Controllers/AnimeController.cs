@@ -53,16 +53,4 @@ public class AnimeController : ControllerBase
     {
         return await _animeService.GetRandomAnimeDetails();
     }
-
-    /*[HttpGet]
-    public async Task<List<AnimeListElementDto>> GetVoicedAnimesBySearch(String search)
-    {
-        return await _animeService.GetVoicedAnimesBySearch(search);
-    }
-    
-    [HttpGet]
-    public async Task<List<AnimeListElementDto>> GetNotVoicedAnimesBySearch(String search)
-    {
-        return await _animeService.GetNotVoicedAnimesBySearch(search);
-    }*/
 }
