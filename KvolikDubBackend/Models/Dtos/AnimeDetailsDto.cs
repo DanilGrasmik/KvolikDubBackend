@@ -37,13 +37,13 @@ public class AnimeDetailsDto
     
     public ExitStatus exitStatus { get; set; }
     
-    //TODO: image ???
     public List<String> frames { get; set; } = new();
     
-    //TODO: maybe not string 
     public String imageUrl { get; set; }
     
     public String? trailerUrl { get; set; }
-
-    //public List<String> episodes { get; set; } = new();
+    
+    public double rating { get; set; }
+    
+    public List<ReviewDto> reviews { get; set; } = new();
 }

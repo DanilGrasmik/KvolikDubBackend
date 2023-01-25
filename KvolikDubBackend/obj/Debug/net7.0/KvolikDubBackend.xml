@@ -59,6 +59,11 @@
             Получить инф-ию о пользователе
             </summary>
         </member>
+        <member name="M:KvolikDubBackend.Controllers.UserController.GetOtherProfile(System.String)">
+            <summary>
+            Получить инф-ию о другом пользователе
+            </summary>
+        </member>
         <member name="M:KvolikDubBackend.Controllers.UserController.EditProfile(KvolikDubBackend.Models.Dtos.EditProfileDto)">
             <summary>
             Изменить инф-ию о пользователе

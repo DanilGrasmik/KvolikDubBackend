@@ -97,6 +97,73 @@ namespace KvolikDubBackend.Migrations
                     b.ToTable("Animes");
                 });
 
+            modelBuilder.Entity("KvolikDubBackend.Models.Entities.BadWordEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Word")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BadWords");
+                });
+
+            modelBuilder.Entity("KvolikDubBackend.Models.Entities.RatingEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AnimeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Grade")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Ratings");
+                });
+
+            modelBuilder.Entity("KvolikDubBackend.Models.Entities.ReviewEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AnimeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("PublishTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ReviewText")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
+                });
+
             modelBuilder.Entity("KvolikDubBackend.Models.Entities.TokenEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -151,9 +218,58 @@ namespace KvolikDubBackend.Migrations
                         .HasForeignKey("UserEntityId");
                 });
 
+            modelBuilder.Entity("KvolikDubBackend.Models.Entities.RatingEntity", b =>
+                {
+                    b.HasOne("KvolikDubBackend.Models.Entities.AnimeEntity", "Anime")
+                        .WithMany("Ratings")
+                        .HasForeignKey("AnimeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KvolikDubBackend.Models.Entities.UserEntity", "User")
+                        .WithMany("Ratings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Anime");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("KvolikDubBackend.Models.Entities.ReviewEntity", b =>
+                {
+                    b.HasOne("KvolikDubBackend.Models.Entities.AnimeEntity", "Anime")
+                        .WithMany("Reviews")
+                        .HasForeignKey("AnimeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KvolikDubBackend.Models.Entities.UserEntity", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Anime");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("KvolikDubBackend.Models.Entities.AnimeEntity", b =>
+                {
+                    b.Navigation("Ratings");
+
+                    b.Navigation("Reviews");
+                });
+
             modelBuilder.Entity("KvolikDubBackend.Models.Entities.UserEntity", b =>
                 {
                     b.Navigation("FavoriteAnimes");
+
+                    b.Navigation("Ratings");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

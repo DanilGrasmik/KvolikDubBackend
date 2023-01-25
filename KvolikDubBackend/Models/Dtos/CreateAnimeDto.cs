@@ -33,10 +33,8 @@ public class CreateAnimeDto
     [Required]
     public ExitStatus exitStatus { get; set; }
     
-    //TODO: image ???
     public List<String> frames { get; set; } = new();
     
-    //TODO: maybe not string 
     public String imageUrl { get; set; }
     
     public String? trailerUrl { get; set; }

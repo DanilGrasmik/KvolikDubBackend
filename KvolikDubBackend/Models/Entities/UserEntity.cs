@@ -23,7 +23,7 @@ public class UserEntity
     
     public List<AnimeEntity> FavoriteAnimes { get; set; } = new();
 
-    //public List<RatingEntity> Ratings { get; set; } = new();
+    public List<RatingEntity> Ratings { get; set; } = new();
 
-    //public List<ReviewEntity> Reviews { get; set; } = new();
+    public List<ReviewEntity> Reviews { get; set; } = new();
 }

@@ -32,10 +32,20 @@ public class ExceptionMiddlewareService
             context.Response.StatusCode = StatusCodes.Status409Conflict;
             await context.Response.WriteAsJsonAsync(new { message = exception.Message });
         }
-        catch (Exception exception)
+        catch (NotAcceptableException exception)
+        {
+            context.Response.StatusCode = StatusCodes.Status406NotAcceptable;
+            await context.Response.WriteAsJsonAsync(new { message = exception.Message });
+        }
+        catch (ForbiddenException exception)
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            await context.Response.WriteAsJsonAsync(new { message = exception.Message });
+        }
+        /*catch (Exception exception)
         {
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await context.Response.WriteAsJsonAsync(new { message = exception.Message });
-        }
+        }*/
     }
 }

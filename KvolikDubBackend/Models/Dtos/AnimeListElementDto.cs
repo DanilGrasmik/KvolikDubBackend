@@ -32,6 +32,8 @@ public class AnimeListElementDto
     public int episodesAmount { get; set; }
     
     public List<String> genres { get; set; } = new ();
-    
+
     public ExitStatus exitStatus { get; set; }
+    
+    public double rating { get; set; }
 }

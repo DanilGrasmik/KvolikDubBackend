@@ -49,9 +49,7 @@ public class AnimeEntity
     
     public VoiceoverStatus VoiceoverStatus { get; set; }
 
-    //public List<RatingEntity> Ratings { get; set; } = new();
-
-    //public List<UserEntity> LikedUsers { get; set; } = new();
+    public List<RatingEntity> Ratings { get; set; } = new();
     
-    //public List<ReviewEntity> Reviews { get; set; } = new();
+    public List<ReviewEntity> Reviews { get; set; } = new();
 }

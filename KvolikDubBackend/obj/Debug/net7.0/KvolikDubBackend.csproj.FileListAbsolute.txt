@@ -50,3 +50,4 @@ D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\AutoMapper.Extens
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\KvolikDubBackend.xml
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\obj\Debug\net7.0\KvolikDubBackend.xml
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\BCrypt.Net-Next.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Web.config

@@ -25,15 +25,18 @@ public class AnimeService : IAnimeService
         AnimeEntity animeEntity = await _context
             .Animes
             .Where(anime => anime.ShortName == shortName)
+            .Include(anime => anime.Reviews)
             .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find anime with shortName '{shortName}'");
 
         var animeDetailsDto = _mapping.Map<AnimeDetailsDto>(animeEntity);
 
+        animeDetailsDto.reviews = _mapping.Map<List<ReviewDto>>(animeEntity.Reviews);
         return animeDetailsDto;
     }
 
     public async Task<List<AnimeListElementDto>> GetVoicedAnimeList(String? search, IQueryCollection query)
     {
+        //TODO: filters  
         CheckQueryAnimeList(query);
         search = search?.ToLower();
         var animeEntities = await _context

@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using KvolikDubBackend.Models.Dtos;
 using KvolikDubBackend.Services.Interfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KvolikDubBackend.Controllers;
 
 [Route("api/anime")]
+
 public class AnimeController : ControllerBase
 {
     private readonly IAnimeService _animeService;
