@@ -9,6 +9,5 @@ public interface IAnimeService
     Task<List<AnimeListElementDto>> GetVoicedAnimeList(String? search, IQueryCollection query);
     Task<List<AnimeListElementDto>> GetNotVoicedAnimeList(String? search, IQueryCollection query);
     Task<AnimeDetailsDto> GetRandomAnimeDetails();
-    /*Task<List<AnimeListElementDto>> GetVoicedAnimesBySearch(String search);
-    Task<List<AnimeListElementDto>> GetNotVoicedAnimesBySearch(String search);*/
+    Task<List<String>> GetAllShortNames();
 }

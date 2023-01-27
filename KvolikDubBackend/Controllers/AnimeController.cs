@@ -55,4 +55,14 @@ public class AnimeController : ControllerBase
     {
         return await _animeService.GetRandomAnimeDetails();
     }
+    
+    /// <summary>
+    /// Получить все shorName
+    /// </summary>
+    [HttpGet]
+    [Route("names")]
+    public async Task<List<String>> GetAllShortNames()
+    {
+        return await _animeService.GetAllShortNames();
+    }
 }

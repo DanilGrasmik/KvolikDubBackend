@@ -99,6 +99,21 @@ public class AnimeService : IAnimeService
         return await GetAnimeDetails(animeEntities[randomAnimeIndex].ShortName);
     }
 
+    public async Task<List<string>> GetAllShortNames()
+    {
+        var animes = await _context
+            .Animes
+            .ToListAsync();
+        List<String> shortNames = new();
+        
+        foreach (var anime in animes)
+        {
+            shortNames.Add(anime.ShortName);
+        }
+        
+        return shortNames;
+    }
+
     private void CheckQueryAnimeList(IQueryCollection query)
     {
         foreach (var param in query)
