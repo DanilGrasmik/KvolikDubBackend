@@ -44,6 +44,26 @@
             Удалить аниме из избранного  
             </summary>
         </member>
+        <member name="M:KvolikDubBackend.Controllers.ReviewController.CreateReview(KvolikDubBackend.Models.Dtos.ReviewDto,System.Guid)">
+            <summary>
+            Создать комментарий
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.ReviewController.DeleteReview(System.Guid)">
+            <summary>
+            Удалить комментарий
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.ReviewController.SetRating(System.Int32,System.Guid)">
+            <summary>
+            Поставить оценку аниме
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.ReviewController.LikeReview(System.Guid)">
+            <summary>
+            Лайкнуть комментарий пользователя
+            </summary>
+        </member>
         <member name="M:KvolikDubBackend.Controllers.UserController.RegisterUser(KvolikDubBackend.Models.Dtos.UserRegisterDto)">
             <summary>
             Зарегистрировать пользователя

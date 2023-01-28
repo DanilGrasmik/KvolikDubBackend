@@ -52,16 +52,20 @@ public class ReviewService : IReviewService
 
     public async Task DeleteReview(Guid reviewId, string username)
     {
+        var userEntity = await _context
+            .Users
+            .Where(user => user.Username == username)
+            .FirstOrDefaultAsync();
         var reviewEntity = await _context
             .Reviews
             .Where(rev => rev.Id == reviewId)
             .Include(rev => rev.User)
             .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find review with Id '{reviewId}'");
-        if (reviewEntity.User.Username != username)
+        if (reviewEntity.User.Username != username && !userEntity.IsAdmin)
         {
             throw new ForbiddenException("You cant delete not your own review");
         }
-        
+
         _context.Reviews.Remove(reviewEntity);
         await _context.SaveChangesAsync();
     }
