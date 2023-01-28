@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using KvolikDubBackend.Models.Dtos;
 
 namespace KvolikDubBackend.Models.Entities;
 
@@ -25,5 +26,5 @@ public class UserEntity
 
     public List<RatingEntity> Ratings { get; set; } = new();
 
-    public List<ReviewEntity> Reviews { get; set; } = new();
+    // public List<ReviewEntity> Reviews { get; set; } = new();
 }

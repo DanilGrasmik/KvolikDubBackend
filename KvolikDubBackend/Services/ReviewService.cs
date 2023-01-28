@@ -31,7 +31,7 @@ public class ReviewService : IReviewService
         var userEntity = await _context
             .Users
             .Where(user => user.Username == username)
-            .Include(user => user.Reviews)
+           // .Include(user => user.Reviews)
             .FirstOrDefaultAsync();
         
         var reviewEntity = new ReviewEntity()
@@ -40,9 +40,10 @@ public class ReviewService : IReviewService
             Anime = animeEntity,
             User = userEntity,
             PublishTime = DateTime.UtcNow,
-            ReviewText = reviewDto.reviewText
+            ReviewText = reviewDto.reviewText,
+            Likes = 0
         };
-        userEntity.Reviews.Add(reviewEntity);
+        //userEntity.Reviews.Add(reviewEntity);
         animeEntity.Reviews.Add(reviewEntity);
 
         await _context.Reviews.AddAsync(reviewEntity);
@@ -117,6 +118,29 @@ public class ReviewService : IReviewService
         animeEntity.Ratings.Add(ratingEntity);
 
         await _context.Ratings.AddAsync(ratingEntity);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task LikeReview(Guid revId, string username)
+    {
+        var userEntity = await _context
+            .Users
+            .Where(user => user.Username == username)
+            .FirstOrDefaultAsync();
+        var reviewEntity = await _context
+            .Reviews
+            .Where(rev => rev.Id == revId)
+            .Include(rev => rev.LikedUsers)
+            .FirstOrDefaultAsync() ?? throw new NotFoundException("Cant find review with Id '{revId}'");
+
+        if (reviewEntity.LikedUsers.Contains(userEntity))
+        {
+            throw new ConflictException("You cant like review more then 1 time");
+        }
+        
+        reviewEntity.LikedUsers.Add(userEntity);
+        reviewEntity.Likes++;
+
         await _context.SaveChangesAsync();
     }
 

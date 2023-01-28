@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using KvolikDubBackend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KvolikDubBackend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230128094919_LikesInReview")]
+    partial class LikesInReview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,16 +207,11 @@ namespace KvolikDubBackend.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ReviewEntityId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ReviewEntityId");
 
                     b.ToTable("Users");
                 });
@@ -254,7 +251,7 @@ namespace KvolikDubBackend.Migrations
                         .IsRequired();
 
                     b.HasOne("KvolikDubBackend.Models.Entities.UserEntity", "User")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -264,13 +261,6 @@ namespace KvolikDubBackend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("KvolikDubBackend.Models.Entities.UserEntity", b =>
-                {
-                    b.HasOne("KvolikDubBackend.Models.Entities.ReviewEntity", null)
-                        .WithMany("LikedUsers")
-                        .HasForeignKey("ReviewEntityId");
-                });
-
             modelBuilder.Entity("KvolikDubBackend.Models.Entities.AnimeEntity", b =>
                 {
                     b.Navigation("Ratings");
@@ -278,16 +268,13 @@ namespace KvolikDubBackend.Migrations
                     b.Navigation("Reviews");
                 });
 
-            modelBuilder.Entity("KvolikDubBackend.Models.Entities.ReviewEntity", b =>
-                {
-                    b.Navigation("LikedUsers");
-                });
-
             modelBuilder.Entity("KvolikDubBackend.Models.Entities.UserEntity", b =>
                 {
                     b.Navigation("FavoriteAnimes");
 
                     b.Navigation("Ratings");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

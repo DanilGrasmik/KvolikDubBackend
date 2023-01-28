@@ -9,4 +9,7 @@ public class ReviewDto
     
     [Required]
     public String reviewText { get; set; }
+    
+    [Required]
+    public int likes { get; set; }
 }

@@ -47,4 +47,12 @@ public class ReviewController : ControllerBase
     {
         await _reviewService.SetRating(grade, animeId, User.Identity.Name);
     }
+    
+    [HttpPost]
+    [Authorize]
+    [Route("review/{reviewId}/like")]
+    public async Task LikeReview(Guid reviewId)
+    {
+        await _reviewService.LikeReview(reviewId, User.Identity.Name);
+    }
 }

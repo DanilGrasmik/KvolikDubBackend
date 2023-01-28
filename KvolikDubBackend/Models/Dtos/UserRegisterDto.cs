@@ -13,4 +13,6 @@ public class UserRegisterDto
     public String password { get; set; }
     
     public String? name { get; set; }
+    
+    //todo: confirm password
 }

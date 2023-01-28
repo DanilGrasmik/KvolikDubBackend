@@ -32,6 +32,7 @@ public class FavoritesController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
+    [Authorize(Policy = "TokenValidation")]
     public async Task<List<AnimeListElementDto>> GetFavorites()
     {
         return await _favoritesService.GetFavoritesAnimes(User.Identity.Name);
