@@ -21,6 +21,7 @@ public class FavoritesController : ControllerBase
     /// </summary>
     [HttpPost]
     [Authorize]
+    [Authorize(Policy = "TokenValidation")]
     [Route("{id}")]
     public async Task AddAnimeToFavorites(Guid id)
     {
@@ -43,6 +44,7 @@ public class FavoritesController : ControllerBase
     /// </summary>
     [HttpDelete]
     [Authorize]
+    [Authorize(Policy = "TokenValidation")]
     [Route("{id}")]
     public async Task DeleteAnime(Guid id)
     {

@@ -25,7 +25,6 @@ public class UserService : IUserService
     }
     public async Task<TokenDto> RegisterUser(UserRegisterDto userRegisterDto)
     {
-        //TODO: Confirm password 
          await CheckRegisterValidation(userRegisterDto);
         
         UserEntity userEntity = new UserEntity()
@@ -80,6 +79,16 @@ public class UserService : IUserService
         var token = GetToken(headers);
         
         var handler = new JwtSecurityTokenHandler();
+        var jsonToken = handler.ReadToken(token);
+        var tokenS = jsonToken as JwtSecurityToken;
+        var claims = tokenS.Claims;
+        foreach (var claim in claims)
+        {
+            Console.WriteLine(claim.Type);
+            Console.WriteLine(claim.Value);
+            Console.WriteLine("////////////////////////////");
+            
+        }
         var expiredDate = handler.ReadJwtToken(token).ValidTo;
 
         var tokenEntity = new TokenEntity
@@ -136,7 +145,8 @@ public class UserService : IUserService
 
         var claims = new List<Claim>
         {
-            new(ClaimsIdentity.DefaultNameClaimType, userEntity.Username)
+            new(ClaimsIdentity.DefaultNameClaimType, userEntity.Username),
+            new("username", userEntity.Username)
         };
 
         var claimsIdentity = new ClaimsIdentity
@@ -163,6 +173,11 @@ public class UserService : IUserService
         if (userRegisterDto.username.Length < 2 || userRegisterDto.username.Length > 25)
         {
             throw new BadRequestException("Username length must be in range 2 to 25");
+        }
+
+        if (userRegisterDto.password != userRegisterDto.confirmPassword)
+        {
+            throw new BadRequestException("Confirm password not match password");
         }
 
         UserEntity? userEntity = await _context

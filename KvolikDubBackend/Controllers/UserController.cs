@@ -39,6 +39,7 @@ public class UserController : ControllerBase
     /// </summary>
     [HttpPost]
     [Authorize]
+    [Authorize(Policy = "TokenValidation")]
     [Route("logout")]
     public async Task<String> LogoutUser()
     {
@@ -50,6 +51,7 @@ public class UserController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
+    [Authorize(Policy = "TokenValidation")]
     public async Task<ProfileInfoDto> GetProfile()
     {
         return await _usersService.GetProfile(User.Identity.Name);
@@ -70,6 +72,7 @@ public class UserController : ControllerBase
     /// </summary>
     [HttpPut]
     [Authorize]
+    [Authorize(Policy = "TokenValidation")]
     public async Task EditProfile([FromBody] EditProfileDto editProfileDto)
     {
         await _usersService.EditProfile(editProfileDto, User.Identity.Name);

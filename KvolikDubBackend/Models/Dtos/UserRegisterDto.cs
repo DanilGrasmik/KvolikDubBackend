@@ -12,7 +12,8 @@ public class UserRegisterDto
     [Range(6, 30, ErrorMessage = "Password length must be in range 6 to 30")]
     public String password { get; set; }
     
+    [Required]
+    public String confirmPassword { get; set; }
+
     public String? name { get; set; }
-    
-    //todo: confirm password
 }

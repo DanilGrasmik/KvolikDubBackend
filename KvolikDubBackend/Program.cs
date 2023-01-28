@@ -49,6 +49,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddSingleton<IAuthorizationHandler, TokenReqHandler>();
+builder.Services.AddSingleton<IAuthorizationHandler, AdminReqHandler>();
 builder.Services.AddScoped<IAnimeService, AnimeService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFavoritesService, FavoritesService>();
@@ -60,6 +61,12 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy(
         "TokenValidation",
         policy => policy.Requirements.Add(new TokenReq()));
+});
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(
+        "AdminRequest",
+        policy => policy.Requirements.Add(new AdminReq()));
 });
 
 builder.Services
