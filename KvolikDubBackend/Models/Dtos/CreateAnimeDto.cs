@@ -5,6 +5,8 @@ namespace KvolikDubBackend.Models.Dtos;
 
 public class CreateAnimeDto
 {
+    public String shortName { get; set; }
+    
     [MinLength(1, ErrorMessage = "name min length is 1")]
     public String name { get; set; }
     
@@ -38,4 +40,6 @@ public class CreateAnimeDto
     public String imageUrl { get; set; }
     
     public String? trailerUrl { get; set; }
+    
+    public VoiceoverStatus voiceoverStatus { get; set; }
 }

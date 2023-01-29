@@ -5,7 +5,6 @@ namespace KvolikDubBackend.Models.Dtos;
 
 public class AnimeDetailsDto
 {
-    [Required]
     public Guid id { get; set; }
     
     public string shortName { get; set; }
@@ -45,5 +44,6 @@ public class AnimeDetailsDto
     
     public double rating { get; set; }
     
+    public VoiceoverStatus voiceoverStatus { get; set; }
     public List<ReviewDto> reviews { get; set; } = new();
 }
