@@ -54,3 +54,9 @@ public class ExceptionMiddlewareService
         }*/
     }
 }
+public static class MyMiddlewareExtensions {
+    public static void UseMyMiddleware(this IApplicationBuilder builder)
+    {
+        builder.UseMiddleware<ExceptionMiddlewareService> ();
+    }
+}

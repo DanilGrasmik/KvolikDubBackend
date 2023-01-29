@@ -27,17 +27,22 @@ public class AdminReqHandler : AuthorizationHandler<AdminReq>
     {
         if (_httpContextAccessor.HttpContext != null)
         {
-            var userEntity = await GetUser(_httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Authorization]);
+            var userEntity =
+                await GetUser(_httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Authorization]);
             if (!userEntity.IsAdmin)
             {
-                throw new ForbiddenException("You must be admin to this request");
+                _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
+                await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "You must be admin to this request"});
+                //throw new ForbiddenException("You must be admin to this request");
             }
-            
+
             context.Succeed(requirement);
         }
         else
         {
-            throw new BadRequestException("Bad request");
+            _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad request"});
+            //throw new BadRequestException("Bad request");
         }
     }
     
