@@ -10,15 +10,13 @@ namespace KvolikDubBackend.Services.AuthorizationPolicy;
 public class TokenReqHandler : AuthorizationHandler<TokenReq>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IHttpContextAccessor  _httpContext;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     
     public TokenReqHandler(IHttpContextAccessor httpContextAccessor,
-        IServiceScopeFactory serviceScopeFactory, IHttpContextAccessor httpContext)
+        IServiceScopeFactory serviceScopeFactory)
     {
         _httpContextAccessor = httpContextAccessor;
         _serviceScopeFactory = serviceScopeFactory;
-        _httpContext = httpContext;
     }
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
