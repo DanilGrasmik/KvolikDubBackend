@@ -15,6 +15,9 @@ public class AdminController : ControllerBase
         _adminService = adminService;
     }
 
+    /// <summary>
+    /// Создать новое аниме
+    /// </summary>
     [HttpPost]
     [Route("anime")]
     [Authorize]
@@ -25,13 +28,29 @@ public class AdminController : ControllerBase
         await _adminService.CreateAnime(createAnimeDto);
     }
     
+    /// <summary>
+    /// Изменить инфу о конкретном аниме
+    /// </summary>
     [HttpPut]
     [Route("anime/{animeId}")]
     [Authorize]
     [Authorize(Policy = "TokenValidation")]
     [Authorize(Policy = "AdminRequest")]
-    public async Task CreateNewAnime([FromBody] CreateAnimeDto createAnimeDto, Guid animeId)
+    public async Task EditNewAnime([FromBody] CreateAnimeDto createAnimeDto, Guid animeId)
     {
         await _adminService.EditAnime(createAnimeDto, animeId);
+    }
+    
+    /// <summary>
+    /// Удалить аниме
+    /// </summary>
+    [HttpDelete]
+    [Route("anime/{animeId}")]
+    [Authorize]
+    [Authorize(Policy = "TokenValidation")]
+    [Authorize(Policy = "AdminRequest")]
+    public async Task DeleteAnime(Guid animeId)
+    {
+        await _adminService.DeleteAnime(animeId);
     }
 }

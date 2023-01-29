@@ -53,20 +53,16 @@ public class AdminService : IAdminService
         animeEntity.VoiceoverStatus = createAnimeDto.voiceoverStatus;
 
         await _context.SaveChangesAsync();
-        /*animeEntity.Description =
-            string.IsNullOrEmpty(createAnimeDto.description) ? animeEntity.Description : createAnimeDto.description;
-        animeEntity.Duration = createAnimeDto.duration == 0 ? animeEntity.Duration : createAnimeDto.duration;
-        animeEntity.Frames = createAnimeDto.frames.Count == 0 ? animeEntity.Frames : createAnimeDto.frames;
-        animeEntity.Genres = createAnimeDto.genres.Count == 0 ? animeEntity.Genres : createAnimeDto.genres;
-        animeEntity.Name =
-            string.IsNullOrEmpty(createAnimeDto.name) ? animeEntity.Name : createAnimeDto.name;
-        animeEntity.Type =
-            string.IsNullOrEmpty(createAnimeDto.type) ? animeEntity.Type : createAnimeDto.type;
-        animeEntity.EpisodesAmount = createAnimeDto.episodesAmount == 0 ? animeEntity.EpisodesAmount : createAnimeDto.episodesAmount;
-        animeEntity.ExitStatus = createAnimeDto.exitStatus == null ? animeEntity.ExitStatus : createAnimeDto.exitStatus;
-        animeEntity.ImageUrl =
-            string.IsNullOrEmpty(createAnimeDto.imageUrl) ? animeEntity.ImageUrl : createAnimeDto.imageUrl;
-        animeEntity.NameEng =
-            string.IsNullOrEmpty(createAnimeDto.nameEng) ? animeEntity.NameEng : createAnimeDto.nameEng;*/
+    }
+
+    public async Task DeleteAnime(Guid animeId)
+    {
+        var animeEntity = await _context
+            .Animes
+            .Where(anime => anime.Id == animeId)
+            .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find anime with Id '{animeId}'");
+
+        _context.Remove(animeEntity);
+        await _context.SaveChangesAsync();
     }
 }

@@ -4,6 +4,21 @@
         <name>KvolikDubBackend</name>
     </assembly>
     <members>
+        <member name="M:KvolikDubBackend.Controllers.AdminController.CreateNewAnime(KvolikDubBackend.Models.Dtos.CreateAnimeDto)">
+            <summary>
+            Создать новое аниме
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.AdminController.EditNewAnime(KvolikDubBackend.Models.Dtos.CreateAnimeDto,System.Guid)">
+            <summary>
+            Изменить инфу о конкретном аниме
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.AdminController.DeleteAnime(System.Guid)">
+            <summary>
+            Удалить аниме
+            </summary>
+        </member>
         <member name="M:KvolikDubBackend.Controllers.AnimeController.GetAnimeDetails(System.String)">
             <summary>
             Получить информацию о конкретном аниме

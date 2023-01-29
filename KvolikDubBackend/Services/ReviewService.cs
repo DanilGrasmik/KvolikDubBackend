@@ -96,32 +96,35 @@ public class ReviewService : IReviewService
             .FirstOrDefaultAsync();
         if (rating != null)
         {
-            throw new ConflictException("You can rate anime only 1 time");
+            rating.Grade = grade;
+        }
+        else
+        {
+            var userEntity = await _context
+                .Users
+                .Where(user => user.Username == username)
+                .Include(user => user.Ratings)
+                .FirstOrDefaultAsync();
+            var animeEntity = await _context
+                .Animes
+                .Where(anime => anime.Id == animeId)
+                .Include(anime => anime.Ratings)
+                .FirstOrDefaultAsync() ?? throw new NotAcceptableException($"Cant find anime with Id '{animeId}'");
+            
+            RatingEntity ratingEntity = new RatingEntity()
+            {
+                Id = new Guid(),
+                Grade = grade,
+                User = userEntity,
+                Anime = animeEntity
+            };
+        
+            userEntity.Ratings.Add(ratingEntity);
+            animeEntity.Ratings.Add(ratingEntity);
+            
+            await _context.Ratings.AddAsync(ratingEntity);
         }
         
-        var userEntity = await _context
-            .Users
-            .Where(user => user.Username == username)
-            .Include(user => user.Ratings)
-            .FirstOrDefaultAsync();
-        var animeEntity = await _context
-            .Animes
-            .Where(anime => anime.Id == animeId)
-            .Include(anime => anime.Ratings)
-            .FirstOrDefaultAsync() ?? throw new NotAcceptableException($"Cant find anime with Id '{animeId}'");
-            
-        RatingEntity ratingEntity = new RatingEntity()
-        {
-            Id = new Guid(),
-            Grade = grade,
-            User = userEntity,
-            Anime = animeEntity
-        };
-        
-        userEntity.Ratings.Add(ratingEntity);
-        animeEntity.Ratings.Add(ratingEntity);
-
-        await _context.Ratings.AddAsync(ratingEntity);
         await _context.SaveChangesAsync();
     }
 
