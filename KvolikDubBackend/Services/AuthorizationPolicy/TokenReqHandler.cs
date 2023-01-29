@@ -10,13 +10,15 @@ namespace KvolikDubBackend.Services.AuthorizationPolicy;
 public class TokenReqHandler : AuthorizationHandler<TokenReq>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IHttpContextAccessor  _httpContext;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     
     public TokenReqHandler(IHttpContextAccessor httpContextAccessor,
-        IServiceScopeFactory serviceScopeFactory)
+        IServiceScopeFactory serviceScopeFactory, IHttpContextAccessor httpContext)
     {
         _httpContextAccessor = httpContextAccessor;
         _serviceScopeFactory = serviceScopeFactory;
+        _httpContext = httpContext;
     }
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
@@ -39,14 +41,16 @@ public class TokenReqHandler : AuthorizationHandler<TokenReq>
 
             if (tokenEntity != null)
             {
-                throw new NotAuthorizedException("Not authorized");
+                _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});
             }
 
             context.Succeed(requirement);
         }
         else
         {
-            throw new BadRequestException("Bad request");
+            _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad request"});
         }
     }
     
