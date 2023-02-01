@@ -9,4 +9,6 @@ public class ProfileInfoDto
     public String? name { get; set; }
     
     public String avatarImageUrl { get; set; }
+    
+    public bool isAdmin { get; set; }
 }

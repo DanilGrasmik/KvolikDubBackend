@@ -26,11 +26,21 @@ public class AnimeService : IAnimeService
             .Animes
             .Where(anime => anime.ShortName == shortName)
             .Include(anime => anime.Reviews)
+            .Include(anime => anime.Ratings)
             .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find anime with shortName '{shortName}'");
-
         var animeDetailsDto = _mapping.Map<AnimeDetailsDto>(animeEntity);
-
-        animeDetailsDto.reviews = _mapping.Map<List<ReviewDto>>(animeEntity.Reviews);
+        
+        for (int i = 0; i < animeEntity.Reviews.Count; i++)
+        {
+            ReviewEntity? reviewEntity = await _context
+                .Reviews
+                .Where(rev => rev.Id == animeEntity.Reviews[i].Id)
+                .Include(rev => rev.User)
+                .FirstOrDefaultAsync();
+            animeDetailsDto.reviews[i].name = reviewEntity.User.Name;
+            animeDetailsDto.reviews[i].avatarImageUrl = reviewEntity.User.AvatarImageUrl;
+        }
+        
         return animeDetailsDto;
     }
 
@@ -41,7 +51,7 @@ public class AnimeService : IAnimeService
         search = search?.ToLower();
         var animeEntities = await _context
             .Animes
-            .Where(anime => anime.VoiceoverStatus == VoiceoverStatus.Voiced)
+            .Where(anime => anime.VoiceoverStatus == VoiceoverStatus.Озвучено)
             .ToListAsync();
 
         if (search != null)
@@ -56,6 +66,7 @@ public class AnimeService : IAnimeService
         foreach (var animeEntity in animeEntities)
         {
             AnimeListElementDto animeListElementDto = _mapping.Map<AnimeListElementDto>(animeEntity);
+            
             animeDtos.Add(animeListElementDto);
         }
 
@@ -68,7 +79,7 @@ public class AnimeService : IAnimeService
         search = search?.ToLower();
         var animeEntities = await _context
             .Animes
-            .Where(anime => anime.VoiceoverStatus == VoiceoverStatus.NotVoiced)
+            .Where(anime => anime.VoiceoverStatus == VoiceoverStatus.Неозвучено)
             .ToListAsync();
 
         if (search != null)

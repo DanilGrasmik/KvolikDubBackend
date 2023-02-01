@@ -2,6 +2,6 @@
 
 public enum ExitStatus
 {
-    Ongoing,
-    CameOut
+    Онгоинг,
+    Вышел
 }

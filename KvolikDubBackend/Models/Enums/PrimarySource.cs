@@ -2,8 +2,8 @@
 
 public enum PrimarySource
 {
-    Manga,
-    Original,
-    LightNovel,
-    Manhwa
+    Манга,
+    Оригинал,
+    Ранобэ,
+    Манхва
 }

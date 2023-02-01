@@ -23,4 +23,6 @@ public class AnimeListElementDto
     public String imageUrl { get; set; }
     
     public int episodesAmount { get; set; }
+    
+    public double averageRating { get; set; }
 }

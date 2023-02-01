@@ -42,7 +42,7 @@ public class AnimeDetailsDto
     
     public String? trailerUrl { get; set; }
     
-    public double rating { get; set; }
+    public double averageRating { get; set; }
     
     public VoiceoverStatus voiceoverStatus { get; set; }
     public List<ReviewDto> reviews { get; set; } = new();

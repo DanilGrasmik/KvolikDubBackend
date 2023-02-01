@@ -89,6 +89,10 @@ public class ReviewService : IReviewService
 
     public async Task SetRating(int grade, Guid animeId, string username)
     {
+        if (grade < 1 || grade > 10)
+        {
+            throw new BadRequestException("Rating must be in range 1 to 10");
+        }
         var rating = await _context
             .Ratings
             .Include(rat => rat.User)
@@ -121,6 +125,7 @@ public class ReviewService : IReviewService
         
             userEntity.Ratings.Add(ratingEntity);
             animeEntity.Ratings.Add(ratingEntity);
+            animeEntity.AverageRating = GetAverageRating(animeEntity.Ratings);
             
             await _context.Ratings.AddAsync(ratingEntity);
         }
@@ -161,5 +166,16 @@ public class ReviewService : IReviewService
                 throw new NotAcceptableException("Bad word in review");
             }
         }
+    }
+
+    private double GetAverageRating(List<RatingEntity> ratings)
+    {
+        double ratingSum = 0;
+        foreach (var rate in ratings)
+        {
+            ratingSum += rate.Grade;
+        }
+
+        return ratingSum / ratings.Count;
     }
 }

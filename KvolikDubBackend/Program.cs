@@ -11,8 +11,23 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
+const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+            policy.WithOrigins("https://localhost:44349")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -91,13 +106,27 @@ var dbContext = serviceScope.ServiceProvider.GetService<AppDbContext>();
 dbContext?.Database.Migrate();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
+    app.UseCors(opts =>
+    {
+        opts.WithOrigins(new string[]
+        {
+            "http://localhost:3000"
+            // whatever domain/port u are using
+        });
+
+        opts.AllowAnyHeader();
+        opts.AllowAnyMethod();
+        opts.AllowCredentials();
+    });
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+}*/
 
 app.UseHttpsRedirection();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();
 

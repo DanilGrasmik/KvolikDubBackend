@@ -82,13 +82,6 @@ public class UserService : IUserService
         var jsonToken = handler.ReadToken(token);
         var tokenS = jsonToken as JwtSecurityToken;
         var claims = tokenS.Claims;
-        foreach (var claim in claims)
-        {
-            Console.WriteLine(claim.Type);
-            Console.WriteLine(claim.Value);
-            Console.WriteLine("////////////////////////////");
-            
-        }
         var expiredDate = handler.ReadJwtToken(token).ValidTo;
 
         var tokenEntity = new TokenEntity
@@ -114,21 +107,28 @@ public class UserService : IUserService
         return profileInfoDto;
     }
 
-    public async Task EditProfile(EditProfileDto editProfileDto, String username)
+    public async Task<TokenDto> EditProfile(EditProfileDto editProfileDto, String username, IHeaderDictionary headers)
     {
         var userEntity = await _context
             .Users
             .Where(user => user.Username == username)
             .FirstOrDefaultAsync();
-
-        if (editProfileDto.name == null)
-        {
-            throw new BadRequestException("name field is required");
-        }
+        var userId = userEntity.Id;
+        await CheckEditValidation(editProfileDto, userId);
         
         userEntity.Name = editProfileDto.name;
-        
+        userEntity.Username = editProfileDto.username;
+        userEntity.HashedPassword = BCrypt.Net.BCrypt.HashPassword(editProfileDto.password);
         await _context.SaveChangesAsync();
+
+        await LogoutUser(headers);
+        
+        LoginCredentials loginCredentials = new LoginCredentials()
+        {
+            username = editProfileDto.username,
+            password = editProfileDto.password
+        };
+        return await LoginUser(loginCredentials);
     }
 
     private async Task<ClaimsIdentity> GetIdentity(string username, string password)
@@ -210,5 +210,26 @@ public class UserService : IUserService
         }
 
         return matches[0].Value;
+    }
+
+    private async Task CheckEditValidation(EditProfileDto editProfileDto, Guid userId)
+    {
+        if (editProfileDto.password.Length < 6 || editProfileDto.password.Length > 30)
+        {
+            throw new BadRequestException("Password length must be in range 6 to 30");
+        }
+        if (editProfileDto.username.Length < 2 || editProfileDto.username.Length > 25)
+        {
+            throw new BadRequestException("Username length must be in range 2 to 25");
+        }
+        
+        var existsUser = await _context
+            .Users
+            .Where(user => user.Username == editProfileDto.username && user.Id != userId)
+            .FirstOrDefaultAsync();
+        if (existsUser != null)
+        {
+            throw new ConflictException($"User with username '{editProfileDto.username}' already exists");
+        }
     }
 }

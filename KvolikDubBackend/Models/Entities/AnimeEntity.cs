@@ -48,6 +48,8 @@ public class AnimeEntity
     public String? TrailerUrl { get; set; }
     
     public VoiceoverStatus VoiceoverStatus { get; set; }
+    
+    public double AverageRating { get; set; }
 
     public List<RatingEntity> Ratings { get; set; } = new();
     

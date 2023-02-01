@@ -73,8 +73,8 @@ public class UserController : ControllerBase
     [HttpPut]
     [Authorize]
     [Authorize(Policy = "TokenValidation")]
-    public async Task EditProfile([FromBody] EditProfileDto editProfileDto)
+    public async Task<TokenDto> EditProfile([FromBody] EditProfileDto editProfileDto)
     {
-        await _usersService.EditProfile(editProfileDto, User.Identity.Name);
+        return await _usersService.EditProfile(editProfileDto, User.Identity.Name, HttpContext.Request.Headers);
     }
 }
