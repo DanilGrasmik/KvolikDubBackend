@@ -50,6 +50,8 @@ public class AnimeEntity
     public VoiceoverStatus VoiceoverStatus { get; set; }
     
     public double AverageRating { get; set; }
+    
+    public bool IsMonophonic { get; set; }
 
     public List<RatingEntity> Ratings { get; set; } = new();
     

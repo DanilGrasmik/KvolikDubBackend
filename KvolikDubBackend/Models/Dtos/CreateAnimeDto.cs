@@ -41,5 +41,6 @@ public class CreateAnimeDto
     
     public String? trailerUrl { get; set; }
     
+    public bool isMonophonic { get; set; }
     public VoiceoverStatus voiceoverStatus { get; set; }
 }

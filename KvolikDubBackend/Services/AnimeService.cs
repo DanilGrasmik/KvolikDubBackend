@@ -46,16 +46,21 @@ public class AnimeService : IAnimeService
 
     public async Task<List<AnimeListElementDto>> GetVoicedAnimeList(String? search, IQueryCollection query)
     {
-        //TODO: filters  
-        CheckQueryAnimeList(query);
-        search = search?.ToLower();
+        //TODO: rating null except zero  
+        Sorting? sort = null;
+        CheckQueryAnimeList(query, ref sort);
         var animeEntities = await _context
             .Animes
             .Where(anime => anime.VoiceoverStatus == VoiceoverStatus.Озвучено)
             .ToListAsync();
-
+        if (sort != null)
+        {
+            SortAnimes(ref animeEntities, sort);
+        }
+        
         if (search != null)
         {
+            search = search?.ToLower();
             animeEntities = animeEntities
                 .Where(anime => anime.Name.ToLower().Contains(search) || anime.NameEng.ToLower().Contains(search))
                 .ToList();
@@ -75,7 +80,9 @@ public class AnimeService : IAnimeService
 
     public async Task<List<AnimeListElementDto>> GetNotVoicedAnimeList(string? search, IQueryCollection query)
     {
-        CheckQueryAnimeList(query);
+        //todo: Check filters for this 
+        Sorting? sort = null;
+        CheckQueryAnimeList(query, ref sort);
         search = search?.ToLower();
         var animeEntities = await _context
             .Animes
@@ -125,14 +132,37 @@ public class AnimeService : IAnimeService
         return shortNames;
     }
 
-    private void CheckQueryAnimeList(IQueryCollection query)
+    private void CheckQueryAnimeList(IQueryCollection query, ref Sorting? sort)
     {
         foreach (var param in query)
         {
-            if (param.Key != "search")
+            if (param.Key == "sort")
             {
-                throw new BadRequestException($"Can't identify query param with key '{param.Key}'");
+                if (!Enum.IsDefined(typeof(Sorting), param.Value.ToString()))
+                {
+                    throw new BadRequestException("Incorrect sort value");
+                }
+                sort = (Sorting)Enum.Parse(typeof(Sorting), param.Value);
             }
+        }
+    }
+
+    private void SortAnimes(ref List<AnimeEntity> animes, Sorting? sort)
+    {
+        switch (sort)
+        {
+            case Sorting.DateAsc:
+                animes = animes.OrderBy(anime => anime.ReleaseFrom).ToList();
+                break;
+            case Sorting.DateDesc:
+                animes = animes.OrderByDescending(anime => anime.ReleaseFrom).ToList();
+                break;
+            case Sorting.RatingAsc:
+                animes = animes.OrderBy(anime => anime.AverageRating).ToList();
+                break;
+            case Sorting.RatingDesc:
+                animes = animes.OrderByDescending(anime => anime.AverageRating).ToList();
+                break;
         }
     }
 }

@@ -44,6 +44,8 @@ public class AnimeDetailsDto
     
     public double averageRating { get; set; }
     
+    public bool isMonophonic { get; set; }
+    
     public VoiceoverStatus voiceoverStatus { get; set; }
     public List<ReviewDto> reviews { get; set; } = new();
 }

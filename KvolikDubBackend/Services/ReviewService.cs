@@ -96,7 +96,8 @@ public class ReviewService : IReviewService
         var rating = await _context
             .Ratings
             .Include(rat => rat.User)
-            .Where(rat => rat.User.Username == username)
+            .Include(rat => rat.Anime)
+            .Where(rat => rat.User.Username == username && rat.Anime.Id == animeId)
             .FirstOrDefaultAsync();
         if (rating != null)
         {

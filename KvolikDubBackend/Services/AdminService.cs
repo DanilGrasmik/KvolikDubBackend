@@ -50,6 +50,7 @@ public class AdminService : IAdminService
         animeEntity.ReleaseFrom = createAnimeDto.releaseFrom;
         animeEntity.ShortName = createAnimeDto.shortName;
         animeEntity.TrailerUrl = createAnimeDto.trailerUrl;
+        animeEntity.IsMonophonic = createAnimeDto.isMonophonic;
         animeEntity.VoiceoverStatus = createAnimeDto.voiceoverStatus;
 
         await _context.SaveChangesAsync();

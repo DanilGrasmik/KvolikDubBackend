@@ -6,7 +6,6 @@ namespace KvolikDubBackend.Models;
 [Route("api/words")]
 public class FillBadWords : ControllerBase
 {
-    //TODO: English bad words
     private AppDbContext _context;
 
     public FillBadWords(AppDbContext context)
@@ -17,7 +16,7 @@ public class FillBadWords : ControllerBase
     /*[HttpGet]
     public async Task GetWords()
     {
-        string[] lines = System.IO.File.ReadAllLines(@"D:\Рабочий стол\BW.txt");
+        string[] lines = System.IO.File.ReadAllLines(@"BW.txt");
         foreach (var line in lines)
         {
             var badWord = new BadWordEntity()
