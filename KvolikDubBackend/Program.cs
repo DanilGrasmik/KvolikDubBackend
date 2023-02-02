@@ -22,10 +22,12 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("http://localhost:3000")
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                .AllowCredentials();
             policy.WithOrigins("https://localhost:44349")
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                .AllowCredentials();
         });
 });
 // Add services to the container.

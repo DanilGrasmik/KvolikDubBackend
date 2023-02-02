@@ -25,7 +25,7 @@ public class TokenReqHandler : AuthorizationHandler<TokenReq>
         if (_httpContextAccessor.HttpContext != null)
         {
             var authorizationString = _httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Authorization];
-            var token = GetToken(authorizationString);
+            var token = GetToken(authorizationString, _httpContextAccessor);
 
             using var scope = _serviceScopeFactory.CreateScope();
             var appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -33,7 +33,7 @@ public class TokenReqHandler : AuthorizationHandler<TokenReq>
 
             var tokenEntity = await appDbContext
                 .Tokens
-                .Where(x => x.Token == token)
+                .Where(x => x.Token == token.ToString())
                 .FirstOrDefaultAsync();
 
 
@@ -52,26 +52,29 @@ public class TokenReqHandler : AuthorizationHandler<TokenReq>
         }
     }
     
-    private static string GetToken(string? authorizationString)
+    private static async Task<string> GetToken(string? authorizationString, IHttpContextAccessor _httpContextAccessor)
     {
         const string pattern = @"\S+\.\S+\.\S+";
         var regex = new Regex(pattern);
         if (authorizationString == null)
         {
-            throw new NotAuthorizedException("Not authorized");
+            _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});
         }
         var matches = regex.Matches(authorizationString);
 
         if (matches.Count <= 0)
         {
-            throw new NotAuthorizedException("Not authorized");
+            _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});
         }
 
         var token = matches[0].Value;
 
         if (token == null)
         {
-            throw new NotAuthorizedException("Not authorized");
+            _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});
         }
 
         return token;

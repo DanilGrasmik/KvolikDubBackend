@@ -30,6 +30,7 @@ public class AnimeService : IAnimeService
             .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find anime with shortName '{shortName}'");
         var animeDetailsDto = _mapping.Map<AnimeDetailsDto>(animeEntity);
         
+        //todo: reviews by descending of likes
         for (int i = 0; i < animeEntity.Reviews.Count; i++)
         {
             ReviewEntity? reviewEntity = await _context
@@ -40,7 +41,9 @@ public class AnimeService : IAnimeService
             animeDetailsDto.reviews[i].name = reviewEntity.User.Name;
             animeDetailsDto.reviews[i].avatarImageUrl = reviewEntity.User.AvatarImageUrl;
         }
-        
+
+        animeDetailsDto.reviews = animeDetailsDto.reviews.OrderByDescending(rev => rev.likes).ToList();
+
         return animeDetailsDto;
     }
 

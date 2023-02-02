@@ -28,7 +28,7 @@ public class AdminReqHandler : AuthorizationHandler<AdminReq>
         if (_httpContextAccessor.HttpContext != null)
         {
             var userEntity =
-                await GetUser(_httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Authorization]);
+                await GetUser(_httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Authorization], _httpContextAccessor);
             if (!userEntity.IsAdmin)
             {
                 _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
@@ -46,39 +46,42 @@ public class AdminReqHandler : AuthorizationHandler<AdminReq>
         }
     }
     
-    private static string GetToken(string? authorizationString)
+    private static async Task<string> GetToken(string? authorizationString, IHttpContextAccessor _httpContextAccessor)
     {
         const string pattern = @"\S+\.\S+\.\S+";
         var regex = new Regex(pattern);
         if (authorizationString == null)
         {
-            throw new NotAuthorizedException("Not authorized");
+            _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});
         }
         var matches = regex.Matches(authorizationString);
 
         if (matches.Count <= 0)
         {
-            throw new NotAuthorizedException("Not authorized");
+            _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});
         }
 
         var token = matches[0].Value;
 
         if (token == null)
         {
-            throw new NotAuthorizedException("Not authorized");
+            _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});
         }
 
         return token;
     }
 
-    private async Task<UserEntity> GetUser(String authorizationString)
+    private async Task<UserEntity> GetUser(String authorizationString, IHttpContextAccessor _httpContextAccessor)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         String username = "";
-        var token = GetToken(authorizationString);
+        var token = GetToken(authorizationString, _httpContextAccessor);
         var handler = new JwtSecurityTokenHandler();
-        var jsonToken = handler.ReadToken(token);
+        var jsonToken = handler.ReadToken(token.ToString());
         var tokenS = jsonToken as JwtSecurityToken;
         var claims = tokenS.Claims;
         foreach (var claim in claims)
@@ -91,9 +94,16 @@ public class AdminReqHandler : AuthorizationHandler<AdminReq>
         }
 
 
-        return await appDbContext
+        var userEntity = await appDbContext
             .Users
             .Where(user => user.Username == username)
-            .FirstOrDefaultAsync() ?? throw new NotAuthorizedException("Incorrect JWT token");
+            .FirstOrDefaultAsync(); 
+        if(appDbContext == null)
+        {
+            _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});
+        }
+
+        return userEntity;
     }
 }

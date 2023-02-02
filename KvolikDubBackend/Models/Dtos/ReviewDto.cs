@@ -6,7 +6,7 @@ public class ReviewDto
 {
     [Required] 
     public Guid id { get; set; }
-    
+    //todo: username for delete opportunity 
     [Required]
     public String name { get; set; }
     

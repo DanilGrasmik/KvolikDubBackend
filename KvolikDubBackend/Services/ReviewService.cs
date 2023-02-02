@@ -87,6 +87,7 @@ public class ReviewService : IReviewService
         await _context.SaveChangesAsync();
     }
 
+    //todo: delete rating 
     public async Task SetRating(int grade, Guid animeId, string username)
     {
         if (grade < 1 || grade > 10)
@@ -99,9 +100,16 @@ public class ReviewService : IReviewService
             .Include(rat => rat.Anime)
             .Where(rat => rat.User.Username == username && rat.Anime.Id == animeId)
             .FirstOrDefaultAsync();
+        var animeEntity = await _context
+            .Animes
+            .Where(anime => anime.Id == animeId)
+            .Include(anime => anime.Ratings)
+            .FirstOrDefaultAsync() ?? throw new NotAcceptableException($"Cant find anime with Id '{animeId}'");
+        
         if (rating != null)
         {
             rating.Grade = grade;
+            animeEntity.AverageRating = GetAverageRating(animeEntity.Ratings);
         }
         else
         {
@@ -110,12 +118,7 @@ public class ReviewService : IReviewService
                 .Where(user => user.Username == username)
                 .Include(user => user.Ratings)
                 .FirstOrDefaultAsync();
-            var animeEntity = await _context
-                .Animes
-                .Where(anime => anime.Id == animeId)
-                .Include(anime => anime.Ratings)
-                .FirstOrDefaultAsync() ?? throw new NotAcceptableException($"Cant find anime with Id '{animeId}'");
-            
+
             RatingEntity ratingEntity = new RatingEntity()
             {
                 Id = new Guid(),
