@@ -24,7 +24,7 @@
             Получить информацию о конкретном аниме
             </summary>
         </member>
-        <member name="M:KvolikDubBackend.Controllers.AnimeController.GetVoicedAnimeList(System.String)">
+        <member name="M:KvolikDubBackend.Controllers.AnimeController.GetVoicedAnimeList(System.String,KvolikDubBackend.Models.Enums.Sorting)">
             <summary>
             Получить список озвученных аниме (если в URL нет search, то выводятся все аниме)
             </summary>
@@ -77,6 +77,11 @@
         <member name="M:KvolikDubBackend.Controllers.ReviewController.LikeReview(System.Guid)">
             <summary>
             Лайкнуть комментарий пользователя
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.ReviewController.RemoveLike(System.Guid)">
+            <summary>
+            Убрать лайк с комментария пользователя 
             </summary>
         </member>
         <member name="M:KvolikDubBackend.Controllers.UserController.RegisterUser(KvolikDubBackend.Models.Dtos.UserRegisterDto)">

@@ -29,8 +29,11 @@ public class AnimeService : IAnimeService
             .Include(anime => anime.Ratings)
             .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find anime with shortName '{shortName}'");
         var animeDetailsDto = _mapping.Map<AnimeDetailsDto>(animeEntity);
+        if (animeDetailsDto.averageRating == 0)
+        {
+            animeDetailsDto.averageRating = null;
+        }
         
-        //todo: reviews by descending of likes
         for (int i = 0; i < animeEntity.Reviews.Count; i++)
         {
             ReviewEntity? reviewEntity = await _context
@@ -39,6 +42,7 @@ public class AnimeService : IAnimeService
                 .Include(rev => rev.User)
                 .FirstOrDefaultAsync();
             animeDetailsDto.reviews[i].name = reviewEntity.User.Name;
+            animeDetailsDto.reviews[i].username = reviewEntity.User.Username;
             animeDetailsDto.reviews[i].avatarImageUrl = reviewEntity.User.AvatarImageUrl;
         }
 
@@ -49,7 +53,6 @@ public class AnimeService : IAnimeService
 
     public async Task<List<AnimeListElementDto>> GetVoicedAnimeList(String? search, IQueryCollection query)
     {
-        //TODO: rating null except zero  
         Sorting? sort = null;
         CheckQueryAnimeList(query, ref sort);
         var animeEntities = await _context
@@ -74,6 +77,10 @@ public class AnimeService : IAnimeService
         foreach (var animeEntity in animeEntities)
         {
             AnimeListElementDto animeListElementDto = _mapping.Map<AnimeListElementDto>(animeEntity);
+            if (animeListElementDto.averageRating == 0)
+            {
+                animeListElementDto.averageRating = null;
+            }
             
             animeDtos.Add(animeListElementDto);
         }
@@ -83,10 +90,9 @@ public class AnimeService : IAnimeService
 
     public async Task<List<AnimeListElementDto>> GetNotVoicedAnimeList(string? search, IQueryCollection query)
     {
-        //todo: Check filters for this 
+        //todo: Add filters 
         Sorting? sort = null;
         CheckQueryAnimeList(query, ref sort);
-        search = search?.ToLower();
         var animeEntities = await _context
             .Animes
             .Where(anime => anime.VoiceoverStatus == VoiceoverStatus.Неозвучено)
@@ -94,6 +100,7 @@ public class AnimeService : IAnimeService
 
         if (search != null)
         {
+            search = search?.ToLower();
             animeEntities = animeEntities
                 .Where(anime => anime.Name.ToLower().Contains(search) || anime.NameEng.ToLower().Contains(search))
                 .ToList();
@@ -104,6 +111,11 @@ public class AnimeService : IAnimeService
         foreach (var animeEntity in animeEntities)
         {
             AnimeListElementDto animeListElementDto = _mapping.Map<AnimeListElementDto>(animeEntity);
+            if (animeListElementDto.averageRating == 0)
+            {
+                animeListElementDto.averageRating = null;
+            }
+            
             animeDtos.Add(animeListElementDto);
         }
 
@@ -161,7 +173,15 @@ public class AnimeService : IAnimeService
                 animes = animes.OrderByDescending(anime => anime.ReleaseFrom).ToList();
                 break;
             case Sorting.RatingAsc:
-                animes = animes.OrderBy(anime => anime.AverageRating).ToList();
+                var animesWithRating = animes
+                    .OrderBy(anime => anime.AverageRating)
+                    .Where(anime => anime.AverageRating != 0)
+                    .ToList();
+                var animesWithoutRating = animes
+                    .Where(anime => anime.AverageRating == 0)
+                    .ToList();
+                animesWithRating.AddRange(animesWithoutRating);
+                animes = animesWithRating;
                 break;
             case Sorting.RatingDesc:
                 animes = animes.OrderByDescending(anime => anime.AverageRating).ToList();

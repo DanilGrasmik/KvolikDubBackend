@@ -21,6 +21,10 @@ public class ReviewService : IReviewService
 
     public async Task CreateReview(ReviewDto reviewDto, Guid animeId, String username)
     {
+        if (reviewDto.reviewText.Length > 200)
+        {
+            throw new BadRequestException("Text of review cant be more then 200 chars");
+        }
         var reviewText = reviewDto.reviewText.ToLower().Replace('ё','е');
         await CheckForBadWords(reviewText);
         var animeEntity = await _context
@@ -87,7 +91,6 @@ public class ReviewService : IReviewService
         await _context.SaveChangesAsync();
     }
 
-    //todo: delete rating 
     public async Task SetRating(int grade, Guid animeId, string username)
     {
         if (grade < 1 || grade > 10)
@@ -156,6 +159,29 @@ public class ReviewService : IReviewService
         
         reviewEntity.LikedUsers.Add(userEntity);
         reviewEntity.Likes++;
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task RemoveLike(Guid revId, string username)
+    {
+        var reviewEntity = await _context
+            .Reviews
+            .Where(rev => rev.Id == revId)
+            .Include(rev => rev.LikedUsers)
+            .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find review with Id '{revId}'");
+        var userEntity = await _context
+            .Users
+            .Where(user => user.Username == username)
+            .FirstOrDefaultAsync();
+
+        if (!reviewEntity.LikedUsers.Contains(userEntity))
+        {
+            throw new ConflictException("User dont like this review yet");
+        }
+        
+        reviewEntity.Likes--;
+        reviewEntity.LikedUsers.Remove(userEntity);
 
         await _context.SaveChangesAsync();
     }

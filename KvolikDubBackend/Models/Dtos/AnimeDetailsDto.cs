@@ -42,7 +42,7 @@ public class AnimeDetailsDto
     
     public String? trailerUrl { get; set; }
     
-    public double averageRating { get; set; }
+    public double? averageRating { get; set; }
     
     public bool isMonophonic { get; set; }
     

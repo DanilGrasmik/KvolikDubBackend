@@ -74,4 +74,16 @@ public class ReviewController : ControllerBase
     {
         await _reviewService.LikeReview(reviewId, User.Identity.Name);
     }
+    
+    /// <summary>
+    /// Убрать лайк с комментария пользователя 
+    /// </summary>
+    [HttpDelete]
+    [Authorize]
+    [Authorize(Policy = "TokenValidation")]
+    [Route("review/{reviewId}/like")]
+    public async Task RemoveLike(Guid reviewId)
+    {
+        await _reviewService.RemoveLike(reviewId, User.Identity.Name);
+    }
 }

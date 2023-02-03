@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using KvolikDubBackend.Models.Dtos;
+using KvolikDubBackend.Models.Enums;
 using KvolikDubBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ public class AnimeController : ControllerBase
     /// Получить список озвученных аниме (если в URL нет search, то выводятся все аниме)
     /// </summary>
     [HttpGet]
-    public async Task<List<AnimeListElementDto>> GetVoicedAnimeList(String? search)
+    public async Task<List<AnimeListElementDto>> GetVoicedAnimeList(String? search, Sorting sort)
     {
         return await _animeService.GetVoicedAnimeList(search, HttpContext.Request.Query);
     }

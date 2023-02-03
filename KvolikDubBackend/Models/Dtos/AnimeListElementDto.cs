@@ -24,5 +24,5 @@ public class AnimeListElementDto
     
     public int episodesAmount { get; set; }
     
-    public double averageRating { get; set; }
+    public double? averageRating { get; set; }
 }

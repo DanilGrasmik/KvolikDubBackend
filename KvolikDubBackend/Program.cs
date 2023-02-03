@@ -108,9 +108,9 @@ var dbContext = serviceScope.ServiceProvider.GetService<AppDbContext>();
 dbContext?.Database.Migrate();
 
 // Configure the HTTP request pipeline.
-/*if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseCors(opts =>
+    /*app.UseCors(opts =>
     {
         opts.WithOrigins(new string[]
         {
@@ -121,10 +121,10 @@ dbContext?.Database.Migrate();
         opts.AllowAnyHeader();
         opts.AllowAnyMethod();
         opts.AllowCredentials();
-    });
+    });*/
     app.UseSwagger();
     app.UseSwaggerUI();
-}*/
+}
 
 app.UseHttpsRedirection();
 
