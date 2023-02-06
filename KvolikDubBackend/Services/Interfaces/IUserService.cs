@@ -1,4 +1,5 @@
-﻿using KvolikDubBackend.Models.Dtos;
+﻿using System.ComponentModel.DataAnnotations;
+using KvolikDubBackend.Models.Dtos;
 
 namespace KvolikDubBackend.Services.Interfaces;
 

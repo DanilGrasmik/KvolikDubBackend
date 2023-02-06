@@ -54,6 +54,7 @@ public class AnimeService : IAnimeService
     public async Task<List<AnimeListElementDto>> GetVoicedAnimeList(String? search, IQueryCollection query)
     {
         Sorting? sort = null;
+        
         CheckQueryAnimeList(query, ref sort);
         var animeEntities = await _context
             .Animes
@@ -90,8 +91,8 @@ public class AnimeService : IAnimeService
 
     public async Task<List<AnimeListElementDto>> GetNotVoicedAnimeList(string? search, IQueryCollection query)
     {
-        //todo: Add filters 
         Sorting? sort = null;
+        
         CheckQueryAnimeList(query, ref sort);
         var animeEntities = await _context
             .Animes

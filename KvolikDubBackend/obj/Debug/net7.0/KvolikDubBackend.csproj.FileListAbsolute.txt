@@ -51,3 +51,6 @@ D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\KvolikDubBackend.
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\obj\Debug\net7.0\KvolikDubBackend.xml
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\BCrypt.Net-Next.dll
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Web.config
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\MailKit.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\MimeKit.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\BouncyCastle.Crypto.dll

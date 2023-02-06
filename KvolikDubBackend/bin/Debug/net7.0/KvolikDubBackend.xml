@@ -44,6 +44,11 @@
             Получить все shorName
             </summary>
         </member>
+        <member name="M:KvolikDubBackend.Controllers.EmailController.SendEmail(System.String)">
+            <summary>
+            Изменить инф-ию о пользователе
+            </summary>
+        </member>
         <member name="M:KvolikDubBackend.Controllers.FavoritesController.AddAnimeToFavorites(System.Guid)">
             <summary>
             Добавить аниме в избранное

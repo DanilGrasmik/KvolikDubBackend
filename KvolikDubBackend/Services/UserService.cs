@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using AutoMapper;
@@ -8,8 +9,12 @@ using KvolikDubBackend.Models;
 using KvolikDubBackend.Models.Dtos;
 using KvolikDubBackend.Models.Entities;
 using KvolikDubBackend.Services.Interfaces;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MimeKit;
+using MimeKit.Text;
 
 namespace KvolikDubBackend.Services;
 
@@ -17,11 +22,15 @@ public class UserService : IUserService
 {
     private readonly AppDbContext _context;
     private readonly IMapper _mapper;
+    private readonly string? corpEmail;
+    private readonly string? corpP;
 
-    public UserService(AppDbContext context, IMapper mapper)
+    public UserService(IConfiguration configuration, AppDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
+        corpEmail = configuration.GetValue<String>("Email");
+        corpP = configuration.GetValue<String>("Password");
     }
     public async Task<TokenDto> RegisterUser(UserRegisterDto userRegisterDto)
     {
@@ -131,6 +140,8 @@ public class UserService : IUserService
         return await LoginUser(loginCredentials);
     }
 
+
+    //auxiliary
     private async Task<ClaimsIdentity> GetIdentity(string username, string password)
     {
         var userEntity = await _context
@@ -174,7 +185,11 @@ public class UserService : IUserService
         {
             throw new BadRequestException("Username length must be in range 2 to 25");
         }
-
+        if(userRegisterDto.name.Length < 2 || userRegisterDto.name.Length > 25)
+        {
+            throw new BadRequestException("Username length must be in range 2 to 25");
+        }
+        
         if (userRegisterDto.password != userRegisterDto.confirmPassword)
         {
             throw new BadRequestException("Confirm password not match password");

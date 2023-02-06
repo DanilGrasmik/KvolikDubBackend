@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using KvolikDubBackend.Configurations;
@@ -68,6 +69,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddSingleton<IAuthorizationHandler, TokenReqHandler>();
 builder.Services.AddSingleton<IAuthorizationHandler, AdminReqHandler>();
 builder.Services.AddScoped<IAnimeService, AnimeService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFavoritesService, FavoritesService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
