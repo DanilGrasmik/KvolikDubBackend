@@ -22,15 +22,11 @@ public class UserService : IUserService
 {
     private readonly AppDbContext _context;
     private readonly IMapper _mapper;
-    private readonly string? corpEmail;
-    private readonly string? corpP;
 
-    public UserService(IConfiguration configuration, AppDbContext context, IMapper mapper)
+    public UserService(AppDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
-        corpEmail = configuration.GetValue<String>("Email");
-        corpP = configuration.GetValue<String>("Password");
     }
     public async Task<TokenDto> RegisterUser(UserRegisterDto userRegisterDto)
     {
@@ -39,7 +35,7 @@ public class UserService : IUserService
         UserEntity userEntity = new UserEntity()
         {
             Id = new Guid(),
-            Username = userRegisterDto.username,
+            Email = userRegisterDto.email,
             Name = userRegisterDto.name,
             AvatarImageUrl = "https://sun9-east.userapi.com/sun9-58/s/v1/ig2/wgxhVCsTLeNhC3Ue8gnd8n6QkpilZZHTxT61fUXzPXfWqjH8vTsui8fZMdX3VvBHuhMEKYZOkZPosFeMS8CzElzc.jpg?size=712x1044&quality=96&type=album",
             HashedPassword = BCrypt.Net.BCrypt.HashPassword(userRegisterDto.password),
@@ -51,7 +47,7 @@ public class UserService : IUserService
 
         LoginCredentials loginCredentials = new LoginCredentials()
         {
-            username = userRegisterDto.username,
+            email = userRegisterDto.email,
             password = userRegisterDto.password
         };
 
@@ -60,7 +56,7 @@ public class UserService : IUserService
 
     public async Task<TokenDto> LoginUser(LoginCredentials loginCredentials)
     {
-        var identity = await GetIdentity(loginCredentials.username, loginCredentials.password);
+        var identity = await GetIdentity(loginCredentials.email, loginCredentials.password);
 
         var now = DateTime.UtcNow;
 
@@ -105,28 +101,28 @@ public class UserService : IUserService
         return "Logged out";
     }
 
-    public async Task<ProfileInfoDto> GetProfile(string username)
+    public async Task<ProfileInfoDto> GetProfile(string email)
     {
         var userEntity = await _context
             .Users
-            .Where(user => user.Username == username)
+            .Where(user => user.Email == email)
             .FirstOrDefaultAsync();
         
         ProfileInfoDto profileInfoDto = _mapper.Map<ProfileInfoDto>(userEntity);
         return profileInfoDto;
     }
 
-    public async Task<TokenDto> EditProfile(EditProfileDto editProfileDto, String username, IHeaderDictionary headers)
+    public async Task<TokenDto> EditProfile(EditProfileDto editProfileDto, String email, IHeaderDictionary headers)
     {
         var userEntity = await _context
             .Users
-            .Where(user => user.Username == username)
+            .Where(user => user.Email == email)
             .FirstOrDefaultAsync();
         var userId = userEntity.Id;
         await CheckEditValidation(editProfileDto, userId);
         
         userEntity.Name = editProfileDto.name;
-        userEntity.Username = editProfileDto.username;
+        userEntity.Email = editProfileDto.email;
         userEntity.HashedPassword = BCrypt.Net.BCrypt.HashPassword(editProfileDto.password);
         await _context.SaveChangesAsync();
 
@@ -134,7 +130,7 @@ public class UserService : IUserService
         
         LoginCredentials loginCredentials = new LoginCredentials()
         {
-            username = editProfileDto.username,
+            email = editProfileDto.email,
             password = editProfileDto.password
         };
         return await LoginUser(loginCredentials);
@@ -142,11 +138,11 @@ public class UserService : IUserService
 
 
     //auxiliary
-    private async Task<ClaimsIdentity> GetIdentity(string username, string password)
+    private async Task<ClaimsIdentity> GetIdentity(string email, string password)
     {
         var userEntity = await _context
             .Users
-            .Where(x => x.Username == username)
+            .Where(x => x.Email == email)
             .FirstOrDefaultAsync() ?? throw new BadRequestException("Login failed");
 
         if (!BCrypt.Net.BCrypt.Verify(password, userEntity.HashedPassword))
@@ -156,8 +152,8 @@ public class UserService : IUserService
 
         var claims = new List<Claim>
         {
-            new(ClaimsIdentity.DefaultNameClaimType, userEntity.Username),
-            new("username", userEntity.Username)
+            new(ClaimsIdentity.DefaultNameClaimType, userEntity.Email),
+            new("username", userEntity.Email)
         };
 
         var claimsIdentity = new ClaimsIdentity
@@ -173,17 +169,20 @@ public class UserService : IUserService
 
     private async Task CheckRegisterValidation(UserRegisterDto userRegisterDto)
     {
-        if (userRegisterDto.password == null || userRegisterDto.username == null)
+        Regex regex = new Regex(@"[a-zA-Z]+\w*@[a-zA-Z]+\.[a-zA-Z]+");
+        MatchCollection matches = regex.Matches(userRegisterDto.email);
+        if (matches.Count == 0)
+        {
+            throw new BadRequestException("Invalid email");
+        }
+        
+        if (userRegisterDto.password == null || userRegisterDto.email == null)
         {
             throw new BadRequestException("Incorrect model in request");
         }
         if (userRegisterDto.password.Length < 6 || userRegisterDto.password.Length > 30)
         {
             throw new BadRequestException("Password length must be in range 6 to 30");
-        }
-        if (userRegisterDto.username.Length < 2 || userRegisterDto.username.Length > 25)
-        {
-            throw new BadRequestException("Username length must be in range 2 to 25");
         }
         if(userRegisterDto.name.Length < 2 || userRegisterDto.name.Length > 25)
         {
@@ -197,11 +196,11 @@ public class UserService : IUserService
 
         UserEntity? userEntity = await _context
             .Users
-            .Where(user => user.Username == userRegisterDto.username)
+            .Where(user => user.Email == userRegisterDto.email)
             .FirstOrDefaultAsync();
         if (userEntity != null)
         {
-            throw new ConflictException($"User with username '{userRegisterDto.username}' already exists");
+            throw new ConflictException($"User with email '{userRegisterDto.email}' already exists");
         }
     }
     
@@ -229,22 +228,28 @@ public class UserService : IUserService
 
     private async Task CheckEditValidation(EditProfileDto editProfileDto, Guid userId)
     {
+        Regex regex = new Regex(@"[a-zA-Z]+\w*@[a-zA-Z]+\.[a-zA-Z]+");
+        MatchCollection matches = regex.Matches(editProfileDto.email);
+        if (matches.Count == 0)
+        {
+            throw new BadRequestException("Invalid email");
+        }
         if (editProfileDto.password.Length < 6 || editProfileDto.password.Length > 30)
         {
             throw new BadRequestException("Password length must be in range 6 to 30");
         }
-        if (editProfileDto.username.Length < 2 || editProfileDto.username.Length > 25)
+        if (editProfileDto.email.Length < 2 || editProfileDto.email.Length > 25)
         {
             throw new BadRequestException("Username length must be in range 2 to 25");
         }
         
         var existsUser = await _context
             .Users
-            .Where(user => user.Username == editProfileDto.username && user.Id != userId)
+            .Where(user => user.Email == editProfileDto.email && user.Id != userId)
             .FirstOrDefaultAsync();
         if (existsUser != null)
         {
-            throw new ConflictException($"User with username '{editProfileDto.username}' already exists");
+            throw new ConflictException($"User with username '{editProfileDto.email}' already exists");
         }
     }
 }

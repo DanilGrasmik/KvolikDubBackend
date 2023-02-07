@@ -42,7 +42,7 @@ public class AnimeService : IAnimeService
                 .Include(rev => rev.User)
                 .FirstOrDefaultAsync();
             animeDetailsDto.reviews[i].name = reviewEntity.User.Name;
-            animeDetailsDto.reviews[i].username = reviewEntity.User.Username;
+            animeDetailsDto.reviews[i].email = reviewEntity.User.Email;
             animeDetailsDto.reviews[i].avatarImageUrl = reviewEntity.User.AvatarImageUrl;
         }
 

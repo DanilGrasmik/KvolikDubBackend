@@ -34,7 +34,7 @@ public class ReviewService : IReviewService
             .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find anime with Id '{animeId}'");
         var userEntity = await _context
             .Users
-            .Where(user => user.Username == username)
+            .Where(user => user.Email == username)
            // .Include(user => user.Reviews)
             .FirstOrDefaultAsync();
         
@@ -58,14 +58,14 @@ public class ReviewService : IReviewService
     {
         var userEntity = await _context
             .Users
-            .Where(user => user.Username == username)
+            .Where(user => user.Email == username)
             .FirstOrDefaultAsync();
         var reviewEntity = await _context
             .Reviews
             .Where(rev => rev.Id == reviewId)
             .Include(rev => rev.User)
             .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find review with Id '{reviewId}'");
-        if (reviewEntity.User.Username != username && !userEntity.IsAdmin)
+        if (reviewEntity.User.Email != username && !userEntity.IsAdmin)
         {
             throw new ForbiddenException("You cant delete not your own review");
         }
@@ -81,7 +81,7 @@ public class ReviewService : IReviewService
             .Where(rev => rev.Id == reviewId)
             .Include(rev => rev.User)
             .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find review with Id '{reviewId}'");
-        if (reviewEntity.User.Username != username)
+        if (reviewEntity.User.Email != username)
         {
             throw new ForbiddenException("You cant delete not your own review");
         }
@@ -101,7 +101,7 @@ public class ReviewService : IReviewService
             .Ratings
             .Include(rat => rat.User)
             .Include(rat => rat.Anime)
-            .Where(rat => rat.User.Username == username && rat.Anime.Id == animeId)
+            .Where(rat => rat.User.Email == username && rat.Anime.Id == animeId)
             .FirstOrDefaultAsync();
         var animeEntity = await _context
             .Animes
@@ -118,7 +118,7 @@ public class ReviewService : IReviewService
         {
             var userEntity = await _context
                 .Users
-                .Where(user => user.Username == username)
+                .Where(user => user.Email == username)
                 .Include(user => user.Ratings)
                 .FirstOrDefaultAsync();
 
@@ -144,7 +144,7 @@ public class ReviewService : IReviewService
     {
         var userEntity = await _context
             .Users
-            .Where(user => user.Username == username)
+            .Where(user => user.Email == username)
             .FirstOrDefaultAsync();
         var reviewEntity = await _context
             .Reviews
@@ -172,7 +172,7 @@ public class ReviewService : IReviewService
             .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find review with Id '{revId}'");
         var userEntity = await _context
             .Users
-            .Where(user => user.Username == username)
+            .Where(user => user.Email == username)
             .FirstOrDefaultAsync();
 
         if (!reviewEntity.LikedUsers.Contains(userEntity))

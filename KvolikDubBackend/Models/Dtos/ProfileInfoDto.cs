@@ -4,7 +4,7 @@ public class ProfileInfoDto
 {
     public Guid Id { get; set; }
     
-    public String username { get; set; }
+    public String email { get; set; }
     
     public String? name { get; set; }
     

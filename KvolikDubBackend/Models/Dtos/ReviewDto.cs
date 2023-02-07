@@ -8,7 +8,7 @@ public class ReviewDto
     public Guid id { get; set; }
     
     [Required]
-    public String username { get; set; }
+    public String email { get; set; }
     
     [Required]
     public String name { get; set; }
