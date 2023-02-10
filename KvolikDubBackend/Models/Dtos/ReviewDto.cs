@@ -24,4 +24,6 @@ public class ReviewDto
 
     [Required]
     public DateTime publishTime { get; set; }
+    
+    public List<String> likedUsersEmails { get; set; }
 }

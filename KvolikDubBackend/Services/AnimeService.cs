@@ -36,17 +36,22 @@ public class AnimeService : IAnimeService
         
         for (int i = 0; i < animeEntity.Reviews.Count; i++)
         {
-            ReviewEntity? reviewEntity = await _context
+            var reviewEntity = await _context
                 .Reviews
                 .Where(rev => rev.Id == animeEntity.Reviews[i].Id)
                 .Include(rev => rev.User)
                 .FirstOrDefaultAsync();
+            
             animeDetailsDto.reviews[i].name = reviewEntity.User.Name;
             animeDetailsDto.reviews[i].email = reviewEntity.User.Email;
             animeDetailsDto.reviews[i].avatarImageUrl = reviewEntity.User.AvatarImageUrl;
         }
-
-        animeDetailsDto.reviews = animeDetailsDto.reviews.OrderByDescending(rev => rev.likes).ToList();
+        
+        animeDetailsDto.reviews = animeDetailsDto
+            .reviews
+            .OrderByDescending(rev => rev.likes)
+            .ThenBy(rev => rev.publishTime)
+            .ToList();
 
         return animeDetailsDto;
     }

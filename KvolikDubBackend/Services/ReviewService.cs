@@ -140,24 +140,23 @@ public class ReviewService : IReviewService
         await _context.SaveChangesAsync();
     }
 
-    public async Task LikeReview(Guid revId, string username)
+    public async Task LikeReview(Guid revId, string email)
     {
         var userEntity = await _context
             .Users
-            .Where(user => user.Email == username)
+            .Where(user => user.Email == email)
             .FirstOrDefaultAsync();
         var reviewEntity = await _context
             .Reviews
             .Where(rev => rev.Id == revId)
-            .Include(rev => rev.LikedUsers)
-            .FirstOrDefaultAsync() ?? throw new NotFoundException("Cant find review with Id '{revId}'");
+            .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find review with Id '{revId}'");
 
-        if (reviewEntity.LikedUsers.Contains(userEntity))
+        if (reviewEntity.LikedUsersEmails.Contains(userEntity.Email))
         {
             throw new ConflictException("You cant like review more then 1 time");
         }
         
-        reviewEntity.LikedUsers.Add(userEntity);
+        reviewEntity.LikedUsersEmails.Add(userEntity.Email);
         reviewEntity.Likes++;
 
         await _context.SaveChangesAsync();
@@ -168,20 +167,19 @@ public class ReviewService : IReviewService
         var reviewEntity = await _context
             .Reviews
             .Where(rev => rev.Id == revId)
-            .Include(rev => rev.LikedUsers)
             .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find review with Id '{revId}'");
         var userEntity = await _context
             .Users
             .Where(user => user.Email == username)
             .FirstOrDefaultAsync();
 
-        if (!reviewEntity.LikedUsers.Contains(userEntity))
+        if (!reviewEntity.LikedUsersEmails.Contains(userEntity.Email))
         {
             throw new ConflictException("User dont like this review yet");
         }
         
         reviewEntity.Likes--;
-        reviewEntity.LikedUsers.Remove(userEntity);
+        reviewEntity.LikedUsersEmails.Remove(userEntity.Email);
 
         await _context.SaveChangesAsync();
     }
