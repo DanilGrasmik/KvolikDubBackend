@@ -22,6 +22,7 @@ public class EmailService : IEmailService
         corpP = configuration.GetValue<String>("Password");
     }
 
+//todo: доделать + плеер и трейлеры
     public void SendCodeToEmail(string emailAddress)
     {
         Regex regex = new Regex(@"[a-zA-Z]+\w*@[a-zA-Z]+\.[a-zA-Z]+");

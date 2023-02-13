@@ -111,6 +111,10 @@ public class AnimeService : IAnimeService
                 .Where(anime => anime.Name.ToLower().Contains(search) || anime.NameEng.ToLower().Contains(search))
                 .ToList();
         }
+        if (sort != null)
+        {
+            SortAnimes(ref animeEntities, sort);
+        }
         
         List<AnimeListElementDto> animeDtos = new List<AnimeListElementDto>();
 

@@ -46,7 +46,7 @@
         </member>
         <member name="M:KvolikDubBackend.Controllers.EmailController.SendEmail(System.String)">
             <summary>
-            Изменить инф-ию о пользователе
+            Отправить код на введенную почту
             </summary>
         </member>
         <member name="M:KvolikDubBackend.Controllers.FavoritesController.AddAnimeToFavorites(System.Guid)">

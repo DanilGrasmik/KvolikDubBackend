@@ -21,6 +21,6 @@ public class ReviewEntity
     
     [Required]
     public UserEntity User { get; set; }
-    
-    public List<String> LikedUsersEmails { get; set; } = new();
+
+    public List<String>? LikedUsersEmails { get; set; } = new();
 }

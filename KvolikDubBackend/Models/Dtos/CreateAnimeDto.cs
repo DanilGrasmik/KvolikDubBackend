@@ -17,7 +17,7 @@ public class CreateAnimeDto
     
     public int episodesAmount { get; set; }
 
-    public List<String> genres { get; set; } = new();
+    public List<String> genres { get; set; }
     
     public PrimarySource? primarySource { get; set; }
     
@@ -35,12 +35,13 @@ public class CreateAnimeDto
     [Required]
     public ExitStatus exitStatus { get; set; }
     
-    public List<String> frames { get; set; } = new();
+    public List<String> frames { get; set; }
     
     public String imageUrl { get; set; }
     
     public String? trailerUrl { get; set; }
     
+    public String playerLink { get; set; }
     public bool isMonophonic { get; set; }
     public VoiceoverStatus voiceoverStatus { get; set; }
 }

@@ -14,7 +14,7 @@ public class EmailController : ControllerBase
     }
     
     /// <summary>
-    /// Изменить инф-ию о пользователе
+    /// Отправить код на введенную почту
     /// </summary>
     [HttpPut]
     [Route("send")]

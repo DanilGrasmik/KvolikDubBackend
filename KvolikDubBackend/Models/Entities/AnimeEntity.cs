@@ -23,7 +23,7 @@ public class AnimeEntity
     
     public int? EpisodesAmount { get; set; }
 
-    public List<String> Genres { get; set; } = new();
+    public List<String>? Genres { get; set; } = new();
     
     public PrimarySource? PrimarySource { get; set; }
     
@@ -40,8 +40,8 @@ public class AnimeEntity
     public String? Description { get; set; }
     
     public ExitStatus ExitStatus { get; set; }
-    
-    public List<String> Frames { get; set; } = new();
+
+    public List<String>? Frames { get; set; } = new();
     
     public String ImageUrl { get; set; }
     
@@ -50,6 +50,8 @@ public class AnimeEntity
     public VoiceoverStatus VoiceoverStatus { get; set; }
     
     public double AverageRating { get; set; }
+    
+    public String PlayerLink { get; set; }
     
     public bool IsMonophonic { get; set; }
 

@@ -19,7 +19,7 @@ public class AnimeDetailsDto
     
     public int episodesAmount { get; set; }
 
-    public List<String> genres { get; set; } = new();
+    public List<String> genres { get; set; }
     
     public PrimarySource? primarySource { get; set; }
     
@@ -36,7 +36,7 @@ public class AnimeDetailsDto
     
     public ExitStatus exitStatus { get; set; }
     
-    public List<String> frames { get; set; } = new();
+    public List<String> frames { get; set; }
     
     public String imageUrl { get; set; }
     
@@ -45,7 +45,9 @@ public class AnimeDetailsDto
     public double? averageRating { get; set; }
     
     public bool isMonophonic { get; set; }
-    
+
+    public String playerLink { get; set; }
+
     public VoiceoverStatus voiceoverStatus { get; set; }
     public List<ReviewDto> reviews { get; set; } = new();
 }

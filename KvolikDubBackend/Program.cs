@@ -29,6 +29,10 @@ builder.Services.AddCors(options =>
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
+            policy.WithOrigins("http://kvolikdub.ru")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
         });
 });
 // Add services to the container.
@@ -112,18 +116,6 @@ dbContext?.Database.Migrate();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    /*app.UseCors(opts =>
-    {
-        opts.WithOrigins(new string[]
-        {
-            "http://localhost:3000"
-            // whatever domain/port u are using
-        });
-
-        opts.AllowAnyHeader();
-        opts.AllowAnyMethod();
-        opts.AllowCredentials();
-    });*/
     app.UseSwagger();
     app.UseSwaggerUI();
 }

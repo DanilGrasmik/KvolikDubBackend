@@ -151,6 +151,7 @@ public class ReviewService : IReviewService
             .Where(rev => rev.Id == revId)
             .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find review with Id '{revId}'");
 
+        //todo: convert to mysql
         if (reviewEntity.LikedUsersEmails.Contains(userEntity.Email))
         {
             throw new ConflictException("You cant like review more then 1 time");
@@ -180,7 +181,7 @@ public class ReviewService : IReviewService
         
         reviewEntity.Likes--;
         reviewEntity.LikedUsersEmails.Remove(userEntity.Email);
-
+        
         await _context.SaveChangesAsync();
     }
 
