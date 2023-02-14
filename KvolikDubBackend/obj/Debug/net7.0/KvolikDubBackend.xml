@@ -49,6 +49,11 @@
             Отправить код на введенную почту
             </summary>
         </member>
+        <member name="M:KvolikDubBackend.Controllers.EmailController.SendEmail(KvolikDubBackend.Models.Dtos.ConfirmCodeDto)">
+            <summary>
+            Подтвердить код
+            </summary>
+        </member>
         <member name="M:KvolikDubBackend.Controllers.FavoritesController.AddAnimeToFavorites(System.Guid)">
             <summary>
             Добавить аниме в избранное

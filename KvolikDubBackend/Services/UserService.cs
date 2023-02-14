@@ -28,6 +28,7 @@ public class UserService : IUserService
         _context = context;
         _mapper = mapper;
     }
+    
     public async Task<TokenDto> RegisterUser(UserRegisterDto userRegisterDto)
     {
          await CheckRegisterValidation(userRegisterDto);

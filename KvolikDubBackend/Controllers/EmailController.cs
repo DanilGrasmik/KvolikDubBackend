@@ -1,4 +1,5 @@
-﻿using KvolikDubBackend.Services.Interfaces;
+﻿using KvolikDubBackend.Models.Dtos;
+using KvolikDubBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KvolikDubBackend.Controllers;
@@ -17,9 +18,19 @@ public class EmailController : ControllerBase
     /// Отправить код на введенную почту
     /// </summary>
     [HttpPut]
-    [Route("send")]
-    public void SendEmail([FromBody] String emailAddress)
+    [Route("send/{emailAddress}")]
+    public async Task SendEmail(String emailAddress)
     {
-        _emailService.SendCodeToEmail(emailAddress);
+        await _emailService.SendCodeToEmail(emailAddress);
+    }
+    
+    /// <summary>
+    /// Подтвердить код
+    /// </summary>
+    [HttpPut]
+    [Route("confirm")]
+    public async Task<TokenDto> SendEmail([FromBody] ConfirmCodeDto confirmCodeDto)
+    {
+        return await _emailService.ConfirmCode(confirmCodeDto);
     }
 }
