@@ -22,7 +22,10 @@ public class AdminService : IAdminService
     public async Task CreateAnime(CreateAnimeDto createAnimeDto)
     {
         var animeEntity = _mapper.Map<AnimeEntity>(createAnimeDto);
-        
+
+        var path = await UploadImage(createAnimeDto.imageUri);
+        animeEntity.ImageUrl = path;
+
         await _context.AddAsync(animeEntity);
         await _context.SaveChangesAsync();
     }
@@ -43,7 +46,7 @@ public class AdminService : IAdminService
         animeEntity.AgeLimit = createAnimeDto.ageLimit;
         animeEntity.EpisodesAmount = createAnimeDto.episodesAmount;
         animeEntity.ExitStatus = createAnimeDto.exitStatus;
-        animeEntity.ImageUrl = createAnimeDto.imageUrl;
+        //animeEntity.ImageUrl = createAnimeDto.imageUri;
         animeEntity.NameEng = createAnimeDto.nameEng;
         animeEntity.PrimarySource = createAnimeDto.primarySource;
         animeEntity.ReleaseBy = createAnimeDto.releaseBy;
@@ -65,5 +68,17 @@ public class AdminService : IAdminService
 
         _context.Remove(animeEntity);
         await _context.SaveChangesAsync();
+    }
+
+
+
+    private async Task<string> UploadImage(IFormFile file)
+    {
+        var filePath = Path.Combine(@"Models\Images", file.FileName);
+        using (FileStream ms = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(ms);
+        }
+        return filePath;
     }
 }

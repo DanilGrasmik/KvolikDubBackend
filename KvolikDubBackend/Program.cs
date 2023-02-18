@@ -61,7 +61,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             // установка потребителя токена
             ValidAudience = JwtConfig.Audience,
             // будет ли валидироваться время существования
-            ValidateLifetime = true,
+            ValidateLifetime = false,
             // установка ключа безопасности
             IssuerSigningKey = JwtConfig.GetSymmetricSecurityKey(),
             // валидация ключа безопасности
@@ -105,6 +105,7 @@ var app = builder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles();
 
 app.UseMiddleware<ExceptionMiddlewareService>();
 

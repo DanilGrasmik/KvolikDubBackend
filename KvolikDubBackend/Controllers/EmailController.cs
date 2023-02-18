@@ -13,7 +13,7 @@ public class EmailController : ControllerBase
     {
         _emailService = emailService;
     }
-    
+
     /// <summary>
     /// Отправить код на введенную почту
     /// </summary>
@@ -23,9 +23,9 @@ public class EmailController : ControllerBase
     {
         await _emailService.SendCodeToEmail(emailAddress);
     }
-    
+
     /// <summary>
-    /// Подтвердить код
+    /// Подтвердить код (максимум 5 попыток)
     /// </summary>
     [HttpPut]
     [Route("confirm")]

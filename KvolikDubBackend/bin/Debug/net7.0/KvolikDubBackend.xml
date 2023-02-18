@@ -51,7 +51,7 @@
         </member>
         <member name="M:KvolikDubBackend.Controllers.EmailController.SendEmail(KvolikDubBackend.Models.Dtos.ConfirmCodeDto)">
             <summary>
-            Подтвердить код
+            Подтвердить код (максимум 5 попыток)
             </summary>
         </member>
         <member name="M:KvolikDubBackend.Controllers.FavoritesController.AddAnimeToFavorites(System.Guid)">

@@ -37,11 +37,13 @@ public class CreateAnimeDto
     
     public List<String> frames { get; set; }
     
-    public String imageUrl { get; set; }
+    //public String imageUrl { get; set; }
     
     public String? trailerUrl { get; set; }
     
     public String playerLink { get; set; }
     public bool isMonophonic { get; set; }
+    
+    public IFormFile imageUri { get; set; }
     public VoiceoverStatus voiceoverStatus { get; set; }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using AutoMapper;
@@ -102,6 +103,7 @@ public class UserService : IUserService
         return "Logged out";
     }
 
+    //todo: оценки аниме id + grade
     public async Task<ProfileInfoDto> GetProfile(string email)
     {
         var userEntity = await _context

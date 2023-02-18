@@ -23,7 +23,7 @@ public class AdminController : ControllerBase
     [Authorize]
     [Authorize(Policy = "TokenValidation")]
     [Authorize(Policy = "AdminRequest")]
-    public async Task CreateNewAnime([FromBody] CreateAnimeDto createAnimeDto)
+    public async Task CreateNewAnime([FromForm] CreateAnimeDto createAnimeDto)
     {
         await _adminService.CreateAnime(createAnimeDto);
     }
