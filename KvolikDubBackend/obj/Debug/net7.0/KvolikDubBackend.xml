@@ -44,6 +44,11 @@
             Получить все shorName
             </summary>
         </member>
+        <member name="M:KvolikDubBackend.Controllers.AnimeController.GetPreview(System.String)">
+            <summary>
+            Получить првью для главной страницы
+            </summary>
+        </member>
         <member name="M:KvolikDubBackend.Controllers.EmailController.SendEmail(System.String)">
             <summary>
             Отправить код на введенную почту

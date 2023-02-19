@@ -10,6 +10,7 @@ using KvolikDubBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
 const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -129,4 +130,18 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseFileServer(new FileServerOptions()
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "Images")),
+    RequestPath = "/Images",
+    EnableDefaultFiles = true
+});
+
 app.Run();
+
+//todo: везде переделать картинки
+
+//todo: фоновые задачи
+
+//todo: добавить авы

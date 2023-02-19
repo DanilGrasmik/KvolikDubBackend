@@ -157,6 +157,17 @@ public class AnimeService : IAnimeService
         return shortNames;
     }
 
+    public async Task<MainPagePreviewDto> GetMainPagePreview(string shortName)
+    {
+        var animeEntity = await _context
+            .Animes
+            .Where(anime => anime.ShortName == shortName)
+            .FirstOrDefaultAsync() ?? throw new NotFoundException($"cant find anime with Id {shortName}");
+        var mainPagePreviewDto = _mapping.Map<MainPagePreviewDto>(animeEntity);
+
+        return mainPagePreviewDto;
+    }
+
     private void CheckQueryAnimeList(IQueryCollection query, ref Sorting? sort)
     {
         foreach (var param in query)
