@@ -57,6 +57,19 @@ public class AdminController : ControllerBase
     /// <summary>
     /// Изменить превью на главной странице
     /// </summary>
+    [HttpPost]
+    [Route("avatar")]
+    [Authorize]
+    [Authorize(Policy = "TokenValidation")]
+    [Authorize(Policy = "AdminRequest")]
+    public async Task CreateAvatar(List<IFormFile> avatars)
+    {
+        await _adminService.CreateAvatar(avatars);
+    }
+    
+    /// <summary>
+    /// Изменить превью на главной странице
+    /// </summary>
     [HttpPut]
     [Route("preview/{shortName}")]
     [Authorize]

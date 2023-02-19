@@ -21,12 +21,14 @@ public class AdminService : IAdminService
 
     public async Task CreateAnime(CreateAnimeDto createAnimeDto)
     {
+        //todo: localhost to url
+        //todo: frames
         var animeEntity = _mapper.Map<AnimeEntity>(createAnimeDto);
 
-        var path = await UploadImage(createAnimeDto.imageUri);
+        var path = await UploadImage(createAnimeDto.imageUri, "Animes");
         animeEntity.ImageUrl = path;
 
-        await _context.AddAsync(animeEntity);
+        await _context.Animes.AddAsync(animeEntity);
         await _context.SaveChangesAsync();
     }
 
@@ -71,9 +73,21 @@ public class AdminService : IAdminService
         await _context.SaveChangesAsync();
     }
 
-    public Task CreateAvatar(CreateAvatarDto createAvatarDto)
+    public async Task CreateAvatar(List<IFormFile> avatars)
     {
-        throw new NotImplementedException();
+        var paths = await UploadAvatars(avatars, "Avatars");
+
+        foreach (var path in paths)
+        {
+            AvatarEntity avatarEntity = new AvatarEntity
+            {
+                Id = new Guid(),
+                ImageIrl = path
+            };
+
+            await _context.Avatars.AddAsync(avatarEntity);
+            await _context.SaveChangesAsync();
+        }
     }
 
     public async Task ChangePreview(string shortName)
@@ -97,13 +111,30 @@ public class AdminService : IAdminService
     }
 
 
-    private async Task<string> UploadImage(IFormFile file)
+    private async Task<string> UploadImage(IFormFile file, string path)
     {
-        var filePath = Path.Combine(@"Models\Images", file.FileName);
+        var filePath = Path.Combine($"Images/{path}", file.FileName);
         using (FileStream ms = new FileStream(filePath, FileMode.Create))
         {
             await file.CopyToAsync(ms);
         }
         return filePath;
+    }
+    
+    private async Task<List<string>> UploadAvatars(List<IFormFile> files, string path)
+    {
+        List<string> filePaths = new();
+        foreach (var file in files)
+        {
+            var filePath = Path.Combine("Images/Avatars", file.FileName);
+            using (FileStream ms = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(ms);
+            }
+
+            filePaths.Add(filePath);
+        }
+
+        return filePaths;
     }
 }

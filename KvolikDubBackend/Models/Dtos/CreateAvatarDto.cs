@@ -2,5 +2,6 @@
 
 public class CreateAvatarDto
 {
-    public IFormFile imageUri { get; set; }
+    public string x { get; set; }
+    public List<IFormFile> imageUris { get; set; }
 }
