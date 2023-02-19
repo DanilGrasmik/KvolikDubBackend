@@ -14,6 +14,6 @@ public class AppMappingProfile : Profile
         CreateMap<AnimeEntity, AnimeListElementDto>();
         CreateMap<UserEntity, ProfileInfoDto>().ReverseMap();
         CreateMap<ReviewEntity, ReviewDto>().ReverseMap();
-        CreateMap<AnimeEntity, MainPagePreviewDto>().ReverseMap();
+        CreateMap<PreviewEntity, MainPagePreviewDto>().ReverseMap();
     }
 }

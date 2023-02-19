@@ -2,6 +2,8 @@
 
 public class MainPagePreviewDto
 {
+    public String shortName { get; set; }
+    
     public String name { get; set; }
     
     public DateTime? releaseFrom { get; set; }

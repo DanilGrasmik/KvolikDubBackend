@@ -12,7 +12,9 @@ public class AppDbContext : DbContext
     public DbSet<RatingEntity> Ratings { get; set; }
     public DbSet<BadWordEntity> BadWords { get; set; }
     public DbSet<ConfirmCodeEntity> ConfirmCodes { get; set; }
-    
+    public DbSet<AvatarEntity> Avatars { get; set; }
+    public DbSet<PreviewEntity> Previews { get; set; }
+
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
         //Database.EnsureCreated();

@@ -10,5 +10,5 @@ public interface IAnimeService
     Task<List<AnimeListElementDto>> GetNotVoicedAnimeList(String? search, IQueryCollection query);
     Task<AnimeDetailsDto> GetRandomAnimeDetails();
     Task<List<String>> GetAllShortNames();
-    Task<MainPagePreviewDto> GetMainPagePreview(string shortName);
+    Task<MainPagePreviewDto> GetMainPagePreview();
 }

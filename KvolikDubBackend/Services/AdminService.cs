@@ -30,6 +30,7 @@ public class AdminService : IAdminService
         await _context.SaveChangesAsync();
     }
 
+    //todo: доделать, чтобы менялся путь вроде бы
     public async Task EditAnime(CreateAnimeDto createAnimeDto, Guid animeId)
     {
         var animeEntity = await _context
@@ -70,6 +71,30 @@ public class AdminService : IAdminService
         await _context.SaveChangesAsync();
     }
 
+    public Task CreateAvatar(CreateAvatarDto createAvatarDto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task ChangePreview(string shortName)
+    {
+        var previewEntity = await _context
+            .Previews
+            .FirstOrDefaultAsync();
+        var animeEntity = await _context
+            .Animes
+            .Where(anime => anime.ShortName == shortName)
+            .FirstOrDefaultAsync() ?? throw new NotFoundException($"cant find anime with shortName {shortName}");
+        
+        previewEntity.ShortName = shortName;
+        previewEntity.Description = animeEntity.Description;
+        previewEntity.Name = animeEntity.Name;
+        previewEntity.Type = animeEntity.Type;
+        previewEntity.AgeLimit = animeEntity.AgeLimit;
+        previewEntity.ReleaseFrom = animeEntity.ReleaseFrom;
+
+        await _context.SaveChangesAsync();
+    }
 
 
     private async Task<string> UploadImage(IFormFile file)

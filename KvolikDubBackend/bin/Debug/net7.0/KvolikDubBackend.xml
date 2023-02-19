@@ -19,6 +19,11 @@
             Удалить аниме
             </summary>
         </member>
+        <member name="M:KvolikDubBackend.Controllers.AdminController.ChangePreview(System.String)">
+            <summary>
+            Изменить превью на главной странице
+            </summary>
+        </member>
         <member name="M:KvolikDubBackend.Controllers.AnimeController.GetAnimeDetails(System.String)">
             <summary>
             Получить информацию о конкретном аниме
@@ -44,7 +49,7 @@
             Получить все shorName
             </summary>
         </member>
-        <member name="M:KvolikDubBackend.Controllers.AnimeController.GetPreview(System.String)">
+        <member name="M:KvolikDubBackend.Controllers.AnimeController.GetPreview">
             <summary>
             Получить првью для главной страницы
             </summary>

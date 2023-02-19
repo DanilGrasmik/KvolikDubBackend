@@ -157,13 +157,12 @@ public class AnimeService : IAnimeService
         return shortNames;
     }
 
-    public async Task<MainPagePreviewDto> GetMainPagePreview(string shortName)
+    public async Task<MainPagePreviewDto> GetMainPagePreview()
     {
-        var animeEntity = await _context
-            .Animes
-            .Where(anime => anime.ShortName == shortName)
-            .FirstOrDefaultAsync() ?? throw new NotFoundException($"cant find anime with Id {shortName}");
-        var mainPagePreviewDto = _mapping.Map<MainPagePreviewDto>(animeEntity);
+        var previewEntity = await _context
+            .Previews
+            .FirstOrDefaultAsync();
+        var mainPagePreviewDto = _mapping.Map<MainPagePreviewDto>(previewEntity);
 
         return mainPagePreviewDto;
     }

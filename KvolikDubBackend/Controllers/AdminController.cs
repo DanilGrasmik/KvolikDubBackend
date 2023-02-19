@@ -53,4 +53,17 @@ public class AdminController : ControllerBase
     {
         await _adminService.DeleteAnime(animeId);
     }
+    
+    /// <summary>
+    /// Изменить превью на главной странице
+    /// </summary>
+    [HttpPut]
+    [Route("preview/{shortName}")]
+    [Authorize]
+    [Authorize(Policy = "TokenValidation")]
+    [Authorize(Policy = "AdminRequest")]
+    public async Task ChangePreview(string shortName)
+    {
+        await _adminService.ChangePreview(shortName);
+    }
 }
