@@ -39,6 +39,7 @@
 
     <ItemGroup>
       <Folder Include="Images\Avatars" />
+      <Folder Include="Images\Frames" />
     </ItemGroup>
 
 </Project>

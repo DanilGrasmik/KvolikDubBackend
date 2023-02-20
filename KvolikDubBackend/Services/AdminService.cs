@@ -21,12 +21,13 @@ public class AdminService : IAdminService
 
     public async Task CreateAnime(CreateAnimeDto createAnimeDto)
     {
-        //todo: localhost to url
-        //todo: frames
         var animeEntity = _mapper.Map<AnimeEntity>(createAnimeDto);
 
-        var path = await UploadImage(createAnimeDto.imageUri, "Animes");
-        animeEntity.ImageUrl = path;
+        var imagePath = await UploadImage(createAnimeDto.imageUri);
+        animeEntity.ImageUrl = imagePath;
+
+        List<String> framesPaths = await UploadImages(createAnimeDto.frames, "Frames");
+        animeEntity.Frames = framesPaths;
 
         await _context.Animes.AddAsync(animeEntity);
         await _context.SaveChangesAsync();
@@ -40,16 +41,22 @@ public class AdminService : IAdminService
             .Where(anime => anime.Id == animeId)
             .FirstOrDefaultAsync() ?? throw new NotFoundException("Cant find anime with Id '{animeId}'");
 
+        DeleteAnimeImage(animeEntity.ImageUrl);
+        foreach (var frame in animeEntity.Frames)
+        {
+            File.Delete(frame);
+        }
+        animeEntity.Frames = await UploadImages(createAnimeDto.frames, "Frames");
+        
         animeEntity.Description = createAnimeDto.description;
         animeEntity.Duration = createAnimeDto.duration;
-        animeEntity.Frames = createAnimeDto.frames;
         animeEntity.Genres = createAnimeDto.genres;
         animeEntity.Name = createAnimeDto.name;
         animeEntity.Type = createAnimeDto.type;
         animeEntity.AgeLimit = createAnimeDto.ageLimit;
         animeEntity.EpisodesAmount = createAnimeDto.episodesAmount;
         animeEntity.ExitStatus = createAnimeDto.exitStatus;
-        //animeEntity.ImageUrl = createAnimeDto.imageUri;
+        animeEntity.ImageUrl = await UploadImage(createAnimeDto.imageUri);
         animeEntity.NameEng = createAnimeDto.nameEng;
         animeEntity.PrimarySource = createAnimeDto.primarySource;
         animeEntity.ReleaseBy = createAnimeDto.releaseBy;
@@ -68,16 +75,19 @@ public class AdminService : IAdminService
             .Animes
             .Where(anime => anime.Id == animeId)
             .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find anime with Id '{animeId}'");
-
+        
+        //todo: удалить аву и фреймы
+        //File.Delete(animeEntity.ImageUrl);
+        
         _context.Remove(animeEntity);
         await _context.SaveChangesAsync();
     }
 
     public async Task CreateAvatar(List<IFormFile> avatars)
     {
-        var paths = await UploadAvatars(avatars, "Avatars");
+        var paths = await UploadImages(avatars, "Avatars");
 
-        foreach (var path in paths)
+        /*foreach (var path in paths)
         {
             AvatarEntity avatarEntity = new AvatarEntity
             {
@@ -87,7 +97,7 @@ public class AdminService : IAdminService
 
             await _context.Avatars.AddAsync(avatarEntity);
             await _context.SaveChangesAsync();
-        }
+        }*/
     }
 
     public async Task ChangePreview(string shortName)
@@ -111,9 +121,9 @@ public class AdminService : IAdminService
     }
 
 
-    private async Task<string> UploadImage(IFormFile file, string path)
+    private async Task<string> UploadImage(IFormFile file)
     {
-        var filePath = Path.Combine($"Images/{path}", file.FileName);
+        var filePath = Path.Combine("Images/Animes", file.FileName);
         using (FileStream ms = new FileStream(filePath, FileMode.Create))
         {
             await file.CopyToAsync(ms);
@@ -121,12 +131,12 @@ public class AdminService : IAdminService
         return filePath;
     }
     
-    private async Task<List<string>> UploadAvatars(List<IFormFile> files, string path)
+    private async Task<List<string>> UploadImages(List<IFormFile> files, string dirName)
     {
         List<string> filePaths = new();
         foreach (var file in files)
         {
-            var filePath = Path.Combine("Images/Avatars", file.FileName);
+            var filePath = Path.Combine($"Images/{dirName}", file.FileName);
             using (FileStream ms = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(ms);
@@ -136,5 +146,10 @@ public class AdminService : IAdminService
         }
 
         return filePaths;
+    }
+
+    private void DeleteAnimeImage(string fileName)
+    {
+        File.Delete(fileName);    
     }
 }

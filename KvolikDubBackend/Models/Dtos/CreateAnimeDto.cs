@@ -35,7 +35,7 @@ public class CreateAnimeDto
     [Required]
     public ExitStatus exitStatus { get; set; }
     
-    public List<String> frames { get; set; }
+    public List<IFormFile> frames { get; set; }
     
     //public String imageUrl { get; set; }
     

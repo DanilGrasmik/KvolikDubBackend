@@ -39,7 +39,7 @@ public class UserService : IUserService
             Id = new Guid(),
             Email = userRegisterDto.email,
             Name = userRegisterDto.name,
-            AvatarImageUrl = "https://sun9-east.userapi.com/sun9-58/s/v1/ig2/wgxhVCsTLeNhC3Ue8gnd8n6QkpilZZHTxT61fUXzPXfWqjH8vTsui8fZMdX3VvBHuhMEKYZOkZPosFeMS8CzElzc.jpg?size=712x1044&quality=96&type=album",
+            AvatarImageUrl = GetRandomAvatarImagePath(),
             HashedPassword = BCrypt.Net.BCrypt.HashPassword(userRegisterDto.password),
             IsAdmin = false
         };
@@ -141,6 +141,12 @@ public class UserService : IUserService
 
 
     //auxiliary
+    private string GetRandomAvatarImagePath()
+    {
+        var rand = new Random();
+        var files = Directory.GetFiles("Images/Avatars");
+        return "https://localhost:44349/" + files[rand.Next(files.Length)];
+    }
     private async Task<ClaimsIdentity> GetIdentity(string email, string password)
     {
         var userEntity = await _context
