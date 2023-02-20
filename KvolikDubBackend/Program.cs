@@ -140,6 +140,4 @@ app.UseFileServer(new FileServerOptions()
 
 app.Run();
 
-//todo: везде переделать картинки
-
 //todo: фоновые задачи

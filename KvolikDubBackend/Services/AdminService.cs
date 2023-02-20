@@ -33,7 +33,6 @@ public class AdminService : IAdminService
         await _context.SaveChangesAsync();
     }
 
-    //todo: доделать, чтобы менялся путь вроде бы
     public async Task EditAnime(CreateAnimeDto createAnimeDto, Guid animeId)
     {
         var animeEntity = await _context
@@ -76,8 +75,7 @@ public class AdminService : IAdminService
             .Where(anime => anime.Id == animeId)
             .FirstOrDefaultAsync() ?? throw new NotFoundException($"Cant find anime with Id '{animeId}'");
         
-        //todo: удалить аву и фреймы
-        //File.Delete(animeEntity.ImageUrl);
+        DeleteAnimeStaticFiles(animeEntity);
         
         _context.Remove(animeEntity);
         await _context.SaveChangesAsync();
@@ -151,5 +149,14 @@ public class AdminService : IAdminService
     private void DeleteAnimeImage(string fileName)
     {
         File.Delete(fileName);    
+    }
+
+    private void DeleteAnimeStaticFiles(AnimeEntity animeEntity)
+    {
+        File.Delete(animeEntity.ImageUrl);
+        foreach (var frame in animeEntity.Frames)
+        {
+            File.Delete(frame);
+        }
     }
 }
