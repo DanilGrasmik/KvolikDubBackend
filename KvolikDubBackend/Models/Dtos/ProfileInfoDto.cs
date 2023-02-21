@@ -11,4 +11,6 @@ public class ProfileInfoDto
     public String avatarImageUrl { get; set; }
     
     public bool isAdmin { get; set; }
+
+    public List<RatingGradeDto> userRatings { get; set; } = new();
 }

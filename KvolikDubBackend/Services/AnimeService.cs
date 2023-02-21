@@ -45,6 +45,7 @@ public class AnimeService : IAnimeService
             animeDetailsDto.reviews[i].name = reviewEntity.User.Name;
             animeDetailsDto.reviews[i].email = reviewEntity.User.Email;
             animeDetailsDto.reviews[i].avatarImageUrl = reviewEntity.User.AvatarImageUrl;
+            animeDetailsDto.reviews[i].isAdmin = reviewEntity.User.IsAdmin;
         }
         
         animeDetailsDto.reviews = animeDetailsDto

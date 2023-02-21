@@ -14,6 +14,9 @@ public class ReviewDto
     public String name { get; set; }
     
     [Required]
+    public bool isAdmin { get; set; }
+    
+    [Required]
     public String reviewText { get; set; }
     
     [Required]

@@ -55,7 +55,7 @@ public class AdminController : ControllerBase
     }
     
     /// <summary>
-    /// Изменить превью на главной странице
+    /// Добавить картинку для рандомной авы пользователей
     /// </summary>
     [HttpPost]
     [Route("avatar")]

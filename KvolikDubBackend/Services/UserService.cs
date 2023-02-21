@@ -109,9 +109,12 @@ public class UserService : IUserService
         var userEntity = await _context
             .Users
             .Where(user => user.Email == email)
+            .Include(user => user.Ratings)
+            .ThenInclude(rating => rating.Anime)
             .FirstOrDefaultAsync();
         
         ProfileInfoDto profileInfoDto = _mapper.Map<ProfileInfoDto>(userEntity);
+        profileInfoDto.userRatings = GetUserRatings(userEntity);
         return profileInfoDto;
     }
 
@@ -260,5 +263,21 @@ public class UserService : IUserService
         {
             throw new ConflictException($"User with username '{editProfileDto.email}' already exists");
         }
+    }
+
+    private List<RatingGradeDto> GetUserRatings(UserEntity userEntity)
+    {
+        List<RatingGradeDto> ratingGradeDtos = new();
+        foreach (var rating in userEntity.Ratings)
+        {
+            var ratingDto = new RatingGradeDto()
+            {
+                shortName = rating.Anime.ShortName,
+                grade = rating.Grade
+            };
+            ratingGradeDtos.Add(ratingDto);
+        }
+
+        return ratingGradeDtos;
     }
 }
