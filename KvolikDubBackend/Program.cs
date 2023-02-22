@@ -5,6 +5,7 @@ using KvolikDubBackend.Configurations;
 using KvolikDubBackend.Models;
 using KvolikDubBackend.Services;
 using KvolikDubBackend.Services.AuthorizationPolicy;
+using KvolikDubBackend.Services.BackgroundServices;
 using KvolikDubBackend.Services.ExceptionHandler;
 using KvolikDubBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -79,6 +80,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFavoritesService, FavoritesService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddHostedService<CodesCleaner>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthorization(options =>
 {
@@ -139,5 +141,3 @@ app.UseFileServer(new FileServerOptions()
 });
 
 app.Run();
-
-//todo: фоновые задачи

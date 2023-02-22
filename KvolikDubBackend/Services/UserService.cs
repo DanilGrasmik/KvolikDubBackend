@@ -103,7 +103,6 @@ public class UserService : IUserService
         return "Logged out";
     }
 
-    //todo: оценки аниме id + grade
     public async Task<ProfileInfoDto> GetProfile(string email)
     {
         var userEntity = await _context
