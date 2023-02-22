@@ -23,7 +23,7 @@ public class AdminController : ControllerBase
     [Authorize]
     [Authorize(Policy = "TokenValidation")]
     [Authorize(Policy = "AdminRequest")]
-    public async Task CreateNewAnime([FromBody] CreateAnimeDto createAnimeDto)
+    public async Task CreateNewAnime([FromForm] CreateAnimeDto createAnimeDto)
     {
         await _adminService.CreateAnime(createAnimeDto);
     }
@@ -36,7 +36,7 @@ public class AdminController : ControllerBase
     [Authorize]
     [Authorize(Policy = "TokenValidation")]
     [Authorize(Policy = "AdminRequest")]
-    public async Task EditNewAnime([FromBody] CreateAnimeDto createAnimeDto, Guid animeId)
+    public async Task EditNewAnime([FromForm] CreateAnimeDto createAnimeDto, Guid animeId)
     {
         await _adminService.EditAnime(createAnimeDto, animeId);
     }
@@ -52,5 +52,31 @@ public class AdminController : ControllerBase
     public async Task DeleteAnime(Guid animeId)
     {
         await _adminService.DeleteAnime(animeId);
+    }
+    
+    /// <summary>
+    /// Добавить картинку для рандомной авы пользователей
+    /// </summary>
+    [HttpPost]
+    [Route("avatar")]
+    [Authorize]
+    [Authorize(Policy = "TokenValidation")]
+    [Authorize(Policy = "AdminRequest")]
+    public async Task CreateAvatar(List<IFormFile> avatars)
+    {
+        await _adminService.CreateAvatar(avatars);
+    }
+    
+    /// <summary>
+    /// Изменить превью на главной странице
+    /// </summary>
+    [HttpPut]
+    [Route("preview/{shortName}")]
+    [Authorize]
+    [Authorize(Policy = "TokenValidation")]
+    [Authorize(Policy = "AdminRequest")]
+    public async Task ChangePreview(string shortName)
+    {
+        await _adminService.ChangePreview(shortName);
     }
 }

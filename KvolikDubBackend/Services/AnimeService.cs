@@ -36,17 +36,23 @@ public class AnimeService : IAnimeService
         
         for (int i = 0; i < animeEntity.Reviews.Count; i++)
         {
-            ReviewEntity? reviewEntity = await _context
+            var reviewEntity = await _context
                 .Reviews
                 .Where(rev => rev.Id == animeEntity.Reviews[i].Id)
                 .Include(rev => rev.User)
                 .FirstOrDefaultAsync();
+            
             animeDetailsDto.reviews[i].name = reviewEntity.User.Name;
-            animeDetailsDto.reviews[i].username = reviewEntity.User.Username;
+            animeDetailsDto.reviews[i].email = reviewEntity.User.Email;
             animeDetailsDto.reviews[i].avatarImageUrl = reviewEntity.User.AvatarImageUrl;
+            animeDetailsDto.reviews[i].isAdmin = reviewEntity.User.IsAdmin;
         }
-
-        animeDetailsDto.reviews = animeDetailsDto.reviews.OrderByDescending(rev => rev.likes).ToList();
+        
+        animeDetailsDto.reviews = animeDetailsDto
+            .reviews
+            .OrderByDescending(rev => rev.likes)
+            .ThenBy(rev => rev.publishTime)
+            .ToList();
 
         return animeDetailsDto;
     }
@@ -106,6 +112,10 @@ public class AnimeService : IAnimeService
                 .Where(anime => anime.Name.ToLower().Contains(search) || anime.NameEng.ToLower().Contains(search))
                 .ToList();
         }
+        if (sort != null)
+        {
+            SortAnimes(ref animeEntities, sort);
+        }
         
         List<AnimeListElementDto> animeDtos = new List<AnimeListElementDto>();
 
@@ -146,6 +156,16 @@ public class AnimeService : IAnimeService
         }
         
         return shortNames;
+    }
+
+    public async Task<MainPagePreviewDto> GetMainPagePreview()
+    {
+        var previewEntity = await _context
+            .Previews
+            .FirstOrDefaultAsync();
+        var mainPagePreviewDto = _mapping.Map<MainPagePreviewDto>(previewEntity);
+
+        return mainPagePreviewDto;
     }
 
     private void CheckQueryAnimeList(IQueryCollection query, ref Sorting? sort)

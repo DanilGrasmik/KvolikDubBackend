@@ -66,4 +66,14 @@ public class AnimeController : ControllerBase
     {
         return await _animeService.GetAllShortNames();
     }
+    
+    /// <summary>
+    /// Получить првью для главной страницы
+    /// </summary>
+    [HttpGet]
+    [Route("preview")]
+    public async Task<MainPagePreviewDto> GetPreview()
+    {
+        return await _animeService.GetMainPagePreview();
+    }
 }

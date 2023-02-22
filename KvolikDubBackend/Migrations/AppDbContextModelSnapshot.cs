@@ -48,11 +48,9 @@ namespace KvolikDubBackend.Migrations
                         .HasColumnType("integer");
 
                     b.Property<List<string>>("Frames")
-                        .IsRequired()
                         .HasColumnType("text[]");
 
                     b.Property<List<string>>("Genres")
-                        .IsRequired()
                         .HasColumnType("text[]");
 
                     b.Property<string>("ImageUrl")
@@ -67,6 +65,10 @@ namespace KvolikDubBackend.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("NameEng")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PlayerLink")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -103,6 +105,21 @@ namespace KvolikDubBackend.Migrations
                     b.ToTable("Animes");
                 });
 
+            modelBuilder.Entity("KvolikDubBackend.Models.Entities.AvatarEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ImageIrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Avatars");
+                });
+
             modelBuilder.Entity("KvolikDubBackend.Models.Entities.BadWordEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -116,6 +133,62 @@ namespace KvolikDubBackend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BadWords");
+                });
+
+            modelBuilder.Entity("KvolikDubBackend.Models.Entities.ConfirmCodeEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Code")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ConfirmAttempts")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ExpiredDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ConfirmCodes");
+                });
+
+            modelBuilder.Entity("KvolikDubBackend.Models.Entities.PreviewEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AgeLimit")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ReleaseFrom")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ShortName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Previews");
                 });
 
             modelBuilder.Entity("KvolikDubBackend.Models.Entities.RatingEntity", b =>
@@ -150,6 +223,9 @@ namespace KvolikDubBackend.Migrations
 
                     b.Property<Guid>("AnimeId")
                         .HasColumnType("uuid");
+
+                    b.Property<List<string>>("LikedUsersEmails")
+                        .HasColumnType("text[]");
 
                     b.Property<int>("Likes")
                         .HasColumnType("integer");
@@ -201,6 +277,10 @@ namespace KvolikDubBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("HashedPassword")
                         .IsRequired()
                         .HasColumnType("text");
@@ -211,16 +291,7 @@ namespace KvolikDubBackend.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ReviewEntityId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ReviewEntityId");
 
                     b.ToTable("Users");
                 });
@@ -270,23 +341,11 @@ namespace KvolikDubBackend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("KvolikDubBackend.Models.Entities.UserEntity", b =>
-                {
-                    b.HasOne("KvolikDubBackend.Models.Entities.ReviewEntity", null)
-                        .WithMany("LikedUsers")
-                        .HasForeignKey("ReviewEntityId");
-                });
-
             modelBuilder.Entity("KvolikDubBackend.Models.Entities.AnimeEntity", b =>
                 {
                     b.Navigation("Ratings");
 
                     b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("KvolikDubBackend.Models.Entities.ReviewEntity", b =>
-                {
-                    b.Navigation("LikedUsers");
                 });
 
             modelBuilder.Entity("KvolikDubBackend.Models.Entities.UserEntity", b =>

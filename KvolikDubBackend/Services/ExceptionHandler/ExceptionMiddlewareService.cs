@@ -42,6 +42,11 @@ public class ExceptionMiddlewareService
             context.Response.StatusCode = StatusCodes.Status403Forbidden;
             await context.Response.WriteAsJsonAsync(new { message = exception.Message });
         }
+        catch (GoneException exception)
+        {
+            context.Response.StatusCode = StatusCodes.Status410Gone;
+            await context.Response.WriteAsJsonAsync(new { message = exception.Message });
+        }
         catch (NotAuthorizedException exception)
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;

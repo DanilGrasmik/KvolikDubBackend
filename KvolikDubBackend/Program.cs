@@ -10,6 +10,7 @@ using KvolikDubBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
 const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -26,6 +27,10 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod()
                 .AllowCredentials();
             policy.WithOrigins("https://localhost:44349")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+            policy.WithOrigins("http://kvolikdub.ru")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
@@ -57,7 +62,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             // установка потребителя токена
             ValidAudience = JwtConfig.Audience,
             // будет ли валидироваться время существования
-            ValidateLifetime = true,
+            ValidateLifetime = false,
             // установка ключа безопасности
             IssuerSigningKey = JwtConfig.GetSymmetricSecurityKey(),
             // валидация ключа безопасности
@@ -101,6 +106,7 @@ var app = builder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles();
 
 app.UseMiddleware<ExceptionMiddlewareService>();
 
@@ -112,18 +118,6 @@ dbContext?.Database.Migrate();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    /*app.UseCors(opts =>
-    {
-        opts.WithOrigins(new string[]
-        {
-            "http://localhost:3000"
-            // whatever domain/port u are using
-        });
-
-        opts.AllowAnyHeader();
-        opts.AllowAnyMethod();
-        opts.AllowCredentials();
-    });*/
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -136,4 +130,14 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseFileServer(new FileServerOptions()
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "Images")),
+    RequestPath = "/Images",
+    EnableDefaultFiles = true
+});
+
 app.Run();
+
+//todo: фоновые задачи

@@ -46,21 +46,21 @@ public class AdminReqHandler : AuthorizationHandler<AdminReq>
         }
     }
     
-    private static async Task<string> GetToken(string? authorizationString, IHttpContextAccessor _httpContextAccessor)
+    private static  string GetToken(string? authorizationString, IHttpContextAccessor _httpContextAccessor)
     {
         const string pattern = @"\S+\.\S+\.\S+";
         var regex = new Regex(pattern);
         if (authorizationString == null)
         {
             _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});
+            _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});
         }
         var matches = regex.Matches(authorizationString);
 
         if (matches.Count <= 0)
         {
             _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});
+            _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});
         }
 
         var token = matches[0].Value;
@@ -68,7 +68,7 @@ public class AdminReqHandler : AuthorizationHandler<AdminReq>
         if (token == null)
         {
             _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});
+            _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});
         }
 
         return token;
@@ -96,9 +96,9 @@ public class AdminReqHandler : AuthorizationHandler<AdminReq>
 
         var userEntity = await appDbContext
             .Users
-            .Where(user => user.Username == username)
+            .Where(user => user.Email == username)
             .FirstOrDefaultAsync(); 
-        if(appDbContext == null)
+        if(userEntity == null)
         {
             _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
             await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Bad token"});

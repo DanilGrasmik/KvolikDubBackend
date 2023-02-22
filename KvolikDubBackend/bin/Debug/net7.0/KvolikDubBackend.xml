@@ -19,6 +19,16 @@
             Удалить аниме
             </summary>
         </member>
+        <member name="M:KvolikDubBackend.Controllers.AdminController.CreateAvatar(System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+            <summary>
+            Добавить картинку для рандомной авы пользователей
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.AdminController.ChangePreview(System.String)">
+            <summary>
+            Изменить превью на главной странице
+            </summary>
+        </member>
         <member name="M:KvolikDubBackend.Controllers.AnimeController.GetAnimeDetails(System.String)">
             <summary>
             Получить информацию о конкретном аниме
@@ -44,9 +54,19 @@
             Получить все shorName
             </summary>
         </member>
+        <member name="M:KvolikDubBackend.Controllers.AnimeController.GetPreview">
+            <summary>
+            Получить првью для главной страницы
+            </summary>
+        </member>
         <member name="M:KvolikDubBackend.Controllers.EmailController.SendEmail(System.String)">
             <summary>
-            Изменить инф-ию о пользователе
+            Отправить код на введенную почту
+            </summary>
+        </member>
+        <member name="M:KvolikDubBackend.Controllers.EmailController.SendEmail(KvolikDubBackend.Models.Dtos.ConfirmCodeDto)">
+            <summary>
+            Подтвердить код (максимум 5 попыток)
             </summary>
         </member>
         <member name="M:KvolikDubBackend.Controllers.FavoritesController.AddAnimeToFavorites(System.Guid)">

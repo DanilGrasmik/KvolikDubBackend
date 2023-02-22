@@ -8,10 +8,13 @@ public class ReviewDto
     public Guid id { get; set; }
     
     [Required]
-    public String username { get; set; }
+    public String email { get; set; }
     
     [Required]
     public String name { get; set; }
+    
+    [Required]
+    public bool isAdmin { get; set; }
     
     [Required]
     public String reviewText { get; set; }
@@ -24,4 +27,6 @@ public class ReviewDto
 
     [Required]
     public DateTime publishTime { get; set; }
+    
+    public List<String> likedUsersEmails { get; set; }
 }

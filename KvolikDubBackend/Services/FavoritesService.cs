@@ -23,7 +23,7 @@ public class FavoritesService : IFavoritesService
         var userEntity = await _context
             .Users
             .Include(user => user.FavoriteAnimes)
-            .Where(user => user.Username == username)
+            .Where(user => user.Email == username)
             .FirstOrDefaultAsync();
         var animeEntity = await _context
             .Animes
@@ -43,7 +43,7 @@ public class FavoritesService : IFavoritesService
     {
         var userEntity = await _context
             .Users
-            .Where(user => user.Username == username)
+            .Where(user => user.Email == username)
             .Include(user => user.FavoriteAnimes)
             .FirstOrDefaultAsync();
         
@@ -61,7 +61,7 @@ public class FavoritesService : IFavoritesService
     {
         var userEntity = await _context
             .Users
-            .Where(user => user.Username == username)
+            .Where(user => user.Email == username)
             .Include(user => user.FavoriteAnimes)
             .FirstOrDefaultAsync();
 

@@ -8,6 +8,6 @@ public interface IReviewService
     Task DeleteReview(Guid reviewId, String username);
     Task EditReview(ReviewDto editReviewDto, Guid reviewId, String username);
     Task SetRating(int grade, Guid animeId, String username);
-    Task LikeReview(Guid reviewId, String username);
+    Task LikeReview(Guid reviewId, String email);
     Task RemoveLike(Guid reviewId, String username);
 }

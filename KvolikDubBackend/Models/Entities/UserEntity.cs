@@ -9,7 +9,7 @@ public class UserEntity
     
     [Required]
     [Range(2, 25, ErrorMessage = "Username length must be in range 2 to 25")]
-    public String Username { get; set; }
+    public String Email { get; set; }
     
     [Required]
     public String HashedPassword { get; set; }

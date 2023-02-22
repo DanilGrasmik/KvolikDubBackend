@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text.RegularExpressions;
 using KvolikDubBackend.Exceptions;
 using KvolikDubBackend.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -27,15 +28,28 @@ public class TokenReqHandler : AuthorizationHandler<TokenReq>
             var authorizationString = _httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Authorization];
             var token = GetToken(authorizationString, _httpContextAccessor);
 
+            /*var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(token.Result);
+            var tokenExp = jwtSecurityToken.Claims.First(claim => claim.Type.Equals("exp")).Value;
+            var ticks= long.Parse(tokenExp);
+            var tokenDate = DateTimeOffset.FromUnixTimeSeconds(ticks).UtcDateTime;
+            var now = DateTime.Now.ToUniversalTime();
+            var valid = tokenDate >= now;
+            
+            if (!valid)
+            {
+                _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { message = "Expired token"});
+            }*/
+            
             using var scope = _serviceScopeFactory.CreateScope();
             var appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
 
             var tokenEntity = await appDbContext
                 .Tokens
-                .Where(x => x.Token == token.ToString())
+                .Where(x => x.Token == token.Result)
                 .FirstOrDefaultAsync();
-
 
             if (tokenEntity != null)
             {
