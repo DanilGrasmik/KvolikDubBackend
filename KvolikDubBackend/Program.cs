@@ -135,8 +135,8 @@ app.MapControllers();
 app.UseFileServer(new FileServerOptions()
 {
     FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "Images")),
-    RequestPath = "/Images",
+        Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles")),
+    RequestPath = "/StaticFiles",
     EnableDefaultFiles = true
 });
 

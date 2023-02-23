@@ -47,6 +47,8 @@ public class AnimeDetailsDto
     public bool isMonophonic { get; set; }
 
     public String playerLink { get; set; }
+    
+    public String? previewVideoUrl { get; set; }
 
     public VoiceoverStatus voiceoverStatus { get; set; }
     public List<ReviewDto> reviews { get; set; } = new();

@@ -32,6 +32,7 @@ public class UserService : IUserService
     
     public async Task<TokenDto> RegisterUser(UserRegisterDto userRegisterDto)
     {
+        //todo: bad words
          await CheckRegisterValidation(userRegisterDto);
         
         UserEntity userEntity = new UserEntity()

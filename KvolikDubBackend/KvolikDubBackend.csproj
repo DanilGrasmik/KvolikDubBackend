@@ -38,8 +38,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Images\Avatars" />
-      <Folder Include="Images\Frames" />
+      <Folder Include="StaticFiles\Avatars" />
+      <Folder Include="StaticFiles\Frames" />
+      <Folder Include="StaticFiles\PreviewVideos" />
     </ItemGroup>
 
 </Project>
