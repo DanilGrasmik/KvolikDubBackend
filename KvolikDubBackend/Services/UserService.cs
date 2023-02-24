@@ -32,7 +32,6 @@ public class UserService : IUserService
     
     public async Task<TokenDto> RegisterUser(UserRegisterDto userRegisterDto)
     {
-        //todo: bad words
          await CheckRegisterValidation(userRegisterDto);
         
         UserEntity userEntity = new UserEntity()
@@ -181,6 +180,16 @@ public class UserService : IUserService
 
     private async Task CheckRegisterValidation(UserRegisterDto userRegisterDto)
     {
+        var badWords = await _context
+            .BadWords
+            .ToListAsync();
+        foreach (var word in badWords)
+        {
+            if (userRegisterDto.name.Contains(word.Word))
+            {
+                throw new NotAcceptableException("Плохое слово в имени пользователя");
+            }
+        }
         Regex regex = new Regex(@"[a-zA-Z]+\w*@[a-zA-Z]+\.[a-zA-Z]+");
         MatchCollection matches = regex.Matches(userRegisterDto.email);
         if (matches.Count == 0)
