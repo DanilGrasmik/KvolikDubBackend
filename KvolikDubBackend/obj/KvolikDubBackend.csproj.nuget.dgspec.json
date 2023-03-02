@@ -52,6 +52,10 @@
               "target": "Package",
               "version": "[4.0.3, )"
             },
+            "Docker.DotNet": {
+              "target": "Package",
+              "version": "[3.125.12, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[3.5.0, )"
@@ -112,7 +116,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

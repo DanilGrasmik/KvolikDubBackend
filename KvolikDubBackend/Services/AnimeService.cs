@@ -88,10 +88,9 @@ public class AnimeService : IAnimeService
             {
                 animeListElementDto.averageRating = null;
             }
-            
             animeDtos.Add(animeListElementDto);
         }
-
+        
         return animeDtos;
     }
 

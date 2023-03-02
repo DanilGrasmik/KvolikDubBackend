@@ -48,24 +48,38 @@ public class AdminService : IAdminService
         
         if (createAnimeDto.frames.Count != 0)
         {
+            List<string> newFrames = await UploadImages(createAnimeDto.frames, "Frames");
             foreach (var frame in animeEntity.Frames)
             {
-                if (File.Exists(frame))
+                if (File.Exists("wwwroot/" + frame))
                 {
-                    File.Delete(frame);
+                    File.Delete("wwwroot/" + frame);
                 }
             }
 
-            animeEntity.Frames = await UploadImages(createAnimeDto.frames, "Frames");
+            animeEntity.Frames = newFrames;
         }
 
         if (createAnimeDto.previewVideoUri != null)
         {
-            if (File.Exists(animeEntity.PreviewVideoUrl))
+            var newPreview = await UploadStaticFile(createAnimeDto.previewVideoUri, "PreviewVideos");
+            if (File.Exists("wwwroot/" + animeEntity.PreviewVideoUrl))
             {
-                File.Delete(animeEntity.PreviewVideoUrl);
+                File.Delete("wwwroot/" + animeEntity.PreviewVideoUrl);
             }
-            animeEntity.PreviewVideoUrl = await UploadStaticFile(createAnimeDto.previewVideoUri, "PreviewVideos");
+
+            animeEntity.PreviewVideoUrl = newPreview;
+        }
+        
+        if (createAnimeDto.imageUri != null)
+        {
+            var newImage = await UploadStaticFile(createAnimeDto.imageUri,"Animes");
+            if (File.Exists("wwwroot/" + animeEntity.ImageUrl))
+            {
+                File.Delete("wwwroot/" + animeEntity.ImageUrl);
+            }
+
+            animeEntity.ImageUrl = newImage;
         }
 
         animeEntity.Description = createAnimeDto.description;
@@ -76,15 +90,6 @@ public class AdminService : IAdminService
         animeEntity.AgeLimit = createAnimeDto.ageLimit;
         animeEntity.EpisodesAmount = createAnimeDto.episodesAmount;
         animeEntity.ExitStatus = createAnimeDto.exitStatus;
-        if (createAnimeDto.imageUri != null)
-        {
-            if (File.Exists(animeEntity.ImageUrl))
-            {
-                File.Delete(animeEntity.ImageUrl);
-            } 
-            animeEntity.ImageUrl = await UploadStaticFile(createAnimeDto.imageUri,"Animes");
-        }
-
         animeEntity.NameEng = createAnimeDto.nameEng;
         animeEntity.PrimarySource = createAnimeDto.primarySource;
         animeEntity.ReleaseBy = createAnimeDto.releaseBy;
@@ -152,26 +157,39 @@ public class AdminService : IAdminService
 
     private async Task<string> UploadStaticFile(IFormFile file, string directory)
     {
-        var filePath = Path.Combine($"StaticFiles/{directory}", file.FileName);
+        var filePath = Path.Combine($"wwwroot/{directory}", file.FileName);
+        if (File.Exists(filePath))
+        {
+            throw new BadRequestException($"File with name {file.FileName} already exists");
+        }
         using (FileStream ms = new FileStream(filePath, FileMode.Create))
         {
             await file.CopyToAsync(ms);
         }
-        return filePath;
+        return filePath.Substring(8);
     }
     
     private async Task<List<string>> UploadImages(List<IFormFile> files, string dirName)
     {
         List<string> filePaths = new();
+
         foreach (var file in files)
         {
-            var filePath = Path.Combine($"StaticFiles/{dirName}", file.FileName);
+            var filePath = Path.Combine($"wwwroot/{dirName}", file.FileName);
+            if (File.Exists(filePath))
+            {
+                throw new BadRequestException($"File with name {file.FileName} already exists");
+            }
+            filePaths.Add(filePath.Substring(8));
+        }
+        
+        foreach (var file in files)
+        {
+            var filePath = Path.Combine($"wwwroot/{dirName}", file.FileName);
             using (FileStream ms = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(ms);
             }
-
-            filePaths.Add(filePath);
         }
 
         return filePaths;
@@ -179,20 +197,20 @@ public class AdminService : IAdminService
 
     private void DeleteAnimeStaticFiles(AnimeEntity animeEntity)
     {
-        if (File.Exists(animeEntity.PreviewVideoUrl))
+        if (File.Exists("wwwroot/" + animeEntity.PreviewVideoUrl))
         {
-            File.Delete(animeEntity.PreviewVideoUrl);
+            File.Delete("wwwroot/" + animeEntity.PreviewVideoUrl);
         }
 
-        if (File.Exists(animeEntity.ImageUrl))
+        if (File.Exists("wwwroot/" + animeEntity.ImageUrl))
         {
-            File.Delete(animeEntity.ImageUrl);
+            File.Delete("wwwroot/" + animeEntity.ImageUrl);
         }
         foreach (var frame in animeEntity.Frames)
         {
-            if (File.Exists(frame))
+            if (File.Exists("wwwroot/" + frame))
             {
-                File.Delete(frame);
+                File.Delete("wwwroot/" + frame);
             }
         }
     }

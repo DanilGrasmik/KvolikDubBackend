@@ -1,0 +1,38 @@
+﻿version: '3.4'
+
+networks:
+  kvolikdub-dev:
+    driver: bridge
+    
+services: 
+  kvolikdub:
+    image: kvolikdub:latest
+    depends_on: 
+      - "postgres_image"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    environment:
+      DB_CONNECTION_STRING: "host=postgres_image;port=5432;database=kvolik_db;username=danil;password=danil"
+    networks: 
+      - kvolikdub-dev
+  
+  postgres_image:
+    image: postgres:latest
+    ports:
+      - "5432"
+    restart: always
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+#      - ./dbscripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
+    environment:
+      POSTGRES_USER: "danil"
+      POSTGRES_PASSWORD: "danil"
+      POSTGRES_DB: "kvolik_db"
+    networks:
+      - kvolikdub-dev      
+  
+volumes:
+  db_volume:

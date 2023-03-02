@@ -10,6 +10,7 @@ using KvolikDubBackend.Services.ExceptionHandler;
 using KvolikDubBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
@@ -104,11 +105,17 @@ builder.Services
 var connection = builder.Configuration.GetConnectionString("Postgres");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connection));
 
+// builder.Services.AddHttpLogging(httpLogging =>
+// {
+//     httpLogging.LoggingFields = HttpLoggingFields.All;
+// });
+
 var app = builder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseStaticFiles();
+// app.UseHttpLogging();
 
 app.UseMiddleware<ExceptionMiddlewareService>();
 
@@ -131,13 +138,5 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.UseFileServer(new FileServerOptions()
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles")),
-    RequestPath = "/StaticFiles",
-    EnableDefaultFiles = true
-});
 
 app.Run();

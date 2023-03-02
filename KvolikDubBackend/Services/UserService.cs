@@ -146,8 +146,8 @@ public class UserService : IUserService
     private string GetRandomAvatarImagePath()
     {
         var rand = new Random();
-        var files = Directory.GetFiles("Images/Avatars");
-        return "https://localhost:44349/" + files[rand.Next(files.Length)];
+        var files = Directory.GetFiles("wwwroot/Avatars");
+        return files[rand.Next(files.Length)].Substring(8);
     }
     private async Task<ClaimsIdentity> GetIdentity(string email, string password)
     {
