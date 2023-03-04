@@ -60,35 +60,10 @@
       <None Include="wwwroot\Avatars\image7.jpg" />
       <None Include="wwwroot\Avatars\image8.jpg" />
       <None Include="wwwroot\Avatars\image9.jpg" />
-      <None Include="wwwroot\Frames\bleach1.jpg" />
-      <None Include="wwwroot\Frames\bleach2.jpg" />
-      <None Include="wwwroot\Frames\bleach3.jpg" />
-      <None Include="wwwroot\Frames\bleach4.webp" />
-      <None Include="wwwroot\Frames\bleach5.jpg" />
-      <None Include="wwwroot\Frames\code-frame.png" />
-      <None Include="wwwroot\Frames\code-frame2.jpg" />
-      <None Include="wwwroot\Frames\code-frame3.jpg" />
-      <None Include="wwwroot\Frames\gur1.jpg" />
-      <None Include="wwwroot\Frames\gur2.jpg" />
-      <None Include="wwwroot\Frames\gur3.jpg" />
-      <None Include="wwwroot\Frames\gur4.png" />
-      <None Include="wwwroot\Frames\gur5.jpg" />
-      <None Include="wwwroot\Frames\spyxfr1.jpg" />
-      <None Include="wwwroot\Frames\spyxfr2.jpg" />
-      <None Include="wwwroot\Frames\spyxfr3.jpg" />
-      <None Include="wwwroot\Frames\spyxfr4.jpg" />
-      <None Include="wwwroot\Frames\spyxfr5.jpg" />
-      <None Include="wwwroot\PreviewVideos\code-geass.mp4" />
-      <None Include="wwwroot\PreviewVideos\spy2.mp4" />
-      <None Include="wwwroot\PreviewVideos\Tengen Toppa Gurren-Lagann OP 60fps.mp4" />
-      <None Include="wwwroot\PreviewVideos\TVアニメ『BLEACH 千年血戦篇』ティザーPV／２０２２年１０月放送開始.mp4" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="StaticFiles" />
-      <Folder Include="wwwroot\Animes" />
-      <Folder Include="wwwroot\Frames" />
-      <Folder Include="wwwroot\PreviewVideos" />
     </ItemGroup>
 
 </Project>
