@@ -36,6 +36,10 @@ builder.Services.AddCors(options =>
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
+            policy.WithOrigins("https://kvolikdub.ru")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
         });
 });
 // Add services to the container.
@@ -105,17 +109,11 @@ builder.Services
 var connection = builder.Configuration.GetConnectionString("Postgres");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connection));
 
-// builder.Services.AddHttpLogging(httpLogging =>
-// {
-//     httpLogging.LoggingFields = HttpLoggingFields.All;
-// });
-
 var app = builder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseStaticFiles();
-// app.UseHttpLogging();
 
 app.UseMiddleware<ExceptionMiddlewareService>();
 

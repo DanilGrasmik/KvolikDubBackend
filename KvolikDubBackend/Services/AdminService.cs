@@ -157,7 +157,8 @@ public class AdminService : IAdminService
 
     private async Task<string> UploadStaticFile(IFormFile file, string directory)
     {
-        var filePath = Path.Combine($"wwwroot/{directory}", file.FileName);
+        var curDir = Directory.GetCurrentDirectory();
+        var filePath = Path.Combine($"{curDir}/wwwroot/{directory}", file.FileName);
         if (File.Exists(filePath))
         {
             throw new BadRequestException($"File with name {file.FileName} already exists");
@@ -171,11 +172,12 @@ public class AdminService : IAdminService
     
     private async Task<List<string>> UploadImages(List<IFormFile> files, string dirName)
     {
+        var curDir = Directory.GetCurrentDirectory();
         List<string> filePaths = new();
 
         foreach (var file in files)
         {
-            var filePath = Path.Combine($"wwwroot/{dirName}", file.FileName);
+            var filePath = Path.Combine($"{curDir}/wwwroot/{dirName}", file.FileName);
             if (File.Exists(filePath))
             {
                 throw new BadRequestException($"File with name {file.FileName} already exists");
@@ -185,7 +187,7 @@ public class AdminService : IAdminService
         
         foreach (var file in files)
         {
-            var filePath = Path.Combine($"wwwroot/{dirName}", file.FileName);
+            var filePath = Path.Combine($"{curDir}/wwwroot/{dirName}", file.FileName);
             using (FileStream ms = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(ms);

@@ -6,7 +6,7 @@ networks:
     
 services: 
   kvolikdub:
-    image: kvolikdub:latest
+    image: eebbuunn/kvolikdub:latest
     depends_on: 
       - "postgres_image"
     build:
