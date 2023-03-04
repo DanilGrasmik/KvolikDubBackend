@@ -1,20 +1,96 @@
 {
   "Files": [
     {
-      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\PreviewVideos\\Tengen Toppa Gurren-Lagann OP 60fps.mp4",
-      "PackagePath": "staticwebassets\\PreviewVideos\\Tengen Toppa Gurren-Lagann OP 60fps.mp4"
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image1.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\image1.jpg"
     },
     {
-      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\PreviewVideos\\bleachBloodWar.mp4",
-      "PackagePath": "staticwebassets\\PreviewVideos\\bleachBloodWar.mp4"
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image10.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\image10.jpg"
     },
     {
-      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\PreviewVideos\\code-geass.mp4",
-      "PackagePath": "staticwebassets\\PreviewVideos\\code-geass.mp4"
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image11.png",
+      "PackagePath": "staticwebassets\\Avatars\\image11.png"
     },
     {
-      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\PreviewVideos\\spy2.mp4",
-      "PackagePath": "staticwebassets\\PreviewVideos\\spy2.mp4"
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image12.png",
+      "PackagePath": "staticwebassets\\Avatars\\image12.png"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image13.png",
+      "PackagePath": "staticwebassets\\Avatars\\image13.png"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image14.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\image14.jpg"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image15.png",
+      "PackagePath": "staticwebassets\\Avatars\\image15.png"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image16.png",
+      "PackagePath": "staticwebassets\\Avatars\\image16.png"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image17.png",
+      "PackagePath": "staticwebassets\\Avatars\\image17.png"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image18.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\image18.jpg"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image2.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\image2.jpg"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image20.png",
+      "PackagePath": "staticwebassets\\Avatars\\image20.png"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image21.png",
+      "PackagePath": "staticwebassets\\Avatars\\image21.png"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image22.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\image22.jpg"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image23.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\image23.jpg"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image24.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\image24.jpg"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image3.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\image3.jpg"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image4.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\image4.jpg"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image5.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\image5.jpg"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image6.png",
+      "PackagePath": "staticwebassets\\Avatars\\image6.png"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image7.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\image7.jpg"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image8.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\image8.jpg"
+    },
+    {
+      "Id": "D:\\prog\\web\\KvolikDubBackend\\KvolikDubBackend\\wwwroot\\Avatars\\image9.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\image9.jpg"
     },
     {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.KvolikDubBackend.Microsoft.AspNetCore.StaticWebAssets.props",

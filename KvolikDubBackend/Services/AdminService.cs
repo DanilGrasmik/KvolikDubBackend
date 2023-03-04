@@ -152,7 +152,8 @@ public class AdminService : IAdminService
 
     private async Task<string> UploadStaticFile(IFormFile file, string directory)
     {
-        var filePath = Path.Combine($"StaticFiles/{directory}", file.FileName);
+        var cur = Directory.GetCurrentDirectory();
+        var filePath = Path.Combine($"wwwroot/{directory}", file.FileName);
         using (FileStream ms = new FileStream(filePath, FileMode.Create))
         {
             await file.CopyToAsync(ms);
@@ -165,7 +166,8 @@ public class AdminService : IAdminService
         List<string> filePaths = new();
         foreach (var file in files)
         {
-            var filePath = Path.Combine($"StaticFiles/{dirName}", file.FileName);
+            var cur = Directory.GetCurrentDirectory();
+            var filePath = Path.Combine($"wwwroot/{dirName}", file.FileName);
             using (FileStream ms = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(ms);

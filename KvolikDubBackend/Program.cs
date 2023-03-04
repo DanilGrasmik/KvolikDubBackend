@@ -132,12 +132,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseFileServer(new FileServerOptions()
+/*app.UseFileServer(new FileServerOptions()
 {
     FileProvider = new PhysicalFileProvider(
         Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles")),
     RequestPath = "/StaticFiles",
     EnableDefaultFiles = true
-});
+});*/
 
 app.Run();
