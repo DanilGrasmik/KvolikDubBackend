@@ -23,11 +23,17 @@ public class AdminService : IAdminService
     {
         var animeEntity = _mapper.Map<AnimeEntity>(createAnimeDto);
 
-        var imagePath = await UploadImage(createAnimeDto.imageUri);
+        var imagePath = await UploadStaticFile(createAnimeDto.imageUri, "Animes");
         animeEntity.ImageUrl = imagePath;
 
         List<String> framesPaths = await UploadImages(createAnimeDto.frames, "Frames");
         animeEntity.Frames = framesPaths;
+
+        if (createAnimeDto.previewVideoUri != null)
+        {
+            var prevVideoPath = await UploadStaticFile(createAnimeDto.previewVideoUri, "PreviewVideos");
+            animeEntity.PreviewVideoUrl = prevVideoPath;
+        }
 
         await _context.Animes.AddAsync(animeEntity);
         await _context.SaveChangesAsync();
@@ -39,14 +45,29 @@ public class AdminService : IAdminService
             .Animes
             .Where(anime => anime.Id == animeId)
             .FirstOrDefaultAsync() ?? throw new NotFoundException("Cant find anime with Id '{animeId}'");
-
-        DeleteAnimeImage(animeEntity.ImageUrl);
-        foreach (var frame in animeEntity.Frames)
-        {
-            File.Delete(frame);
-        }
-        animeEntity.Frames = await UploadImages(createAnimeDto.frames, "Frames");
         
+        if (createAnimeDto.frames.Count != 0)
+        {
+            foreach (var frame in animeEntity.Frames)
+            {
+                if (File.Exists(frame))
+                {
+                    File.Delete(frame);
+                }
+            }
+
+            animeEntity.Frames = await UploadImages(createAnimeDto.frames, "Frames");
+        }
+
+        if (createAnimeDto.previewVideoUri != null)
+        {
+            if (File.Exists(animeEntity.PreviewVideoUrl))
+            {
+                File.Delete(animeEntity.PreviewVideoUrl);
+            }
+            animeEntity.PreviewVideoUrl = await UploadStaticFile(createAnimeDto.previewVideoUri, "PreviewVideos");
+        }
+
         animeEntity.Description = createAnimeDto.description;
         animeEntity.Duration = createAnimeDto.duration;
         animeEntity.Genres = createAnimeDto.genres;
@@ -55,7 +76,15 @@ public class AdminService : IAdminService
         animeEntity.AgeLimit = createAnimeDto.ageLimit;
         animeEntity.EpisodesAmount = createAnimeDto.episodesAmount;
         animeEntity.ExitStatus = createAnimeDto.exitStatus;
-        animeEntity.ImageUrl = await UploadImage(createAnimeDto.imageUri);
+        if (createAnimeDto.imageUri != null)
+        {
+            if (File.Exists(animeEntity.ImageUrl))
+            {
+                File.Delete(animeEntity.ImageUrl);
+            } 
+            animeEntity.ImageUrl = await UploadStaticFile(createAnimeDto.imageUri,"Animes");
+        }
+
         animeEntity.NameEng = createAnimeDto.nameEng;
         animeEntity.PrimarySource = createAnimeDto.primarySource;
         animeEntity.ReleaseBy = createAnimeDto.releaseBy;
@@ -64,6 +93,7 @@ public class AdminService : IAdminService
         animeEntity.TrailerUrl = createAnimeDto.trailerUrl;
         animeEntity.IsMonophonic = createAnimeDto.isMonophonic;
         animeEntity.VoiceoverStatus = createAnimeDto.voiceoverStatus;
+        animeEntity.PlayerLink = createAnimeDto.playerLink;
 
         await _context.SaveChangesAsync();
     }
@@ -114,14 +144,16 @@ public class AdminService : IAdminService
         previewEntity.Type = animeEntity.Type;
         previewEntity.AgeLimit = animeEntity.AgeLimit;
         previewEntity.ReleaseFrom = animeEntity.ReleaseFrom;
+        previewEntity.PreviewVideoUrl = animeEntity.PreviewVideoUrl;
 
         await _context.SaveChangesAsync();
     }
 
 
-    private async Task<string> UploadImage(IFormFile file)
+    private async Task<string> UploadStaticFile(IFormFile file, string directory)
     {
-        var filePath = Path.Combine("Images/Animes", file.FileName);
+        var cur = Directory.GetCurrentDirectory();
+        var filePath = Path.Combine($"wwwroot/{directory}", file.FileName);
         using (FileStream ms = new FileStream(filePath, FileMode.Create))
         {
             await file.CopyToAsync(ms);
@@ -134,7 +166,8 @@ public class AdminService : IAdminService
         List<string> filePaths = new();
         foreach (var file in files)
         {
-            var filePath = Path.Combine($"Images/{dirName}", file.FileName);
+            var cur = Directory.GetCurrentDirectory();
+            var filePath = Path.Combine($"wwwroot/{dirName}", file.FileName);
             using (FileStream ms = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(ms);
@@ -146,17 +179,23 @@ public class AdminService : IAdminService
         return filePaths;
     }
 
-    private void DeleteAnimeImage(string fileName)
-    {
-        File.Delete(fileName);    
-    }
-
     private void DeleteAnimeStaticFiles(AnimeEntity animeEntity)
     {
-        File.Delete(animeEntity.ImageUrl);
+        if (File.Exists(animeEntity.PreviewVideoUrl))
+        {
+            File.Delete(animeEntity.PreviewVideoUrl);
+        }
+
+        if (File.Exists(animeEntity.ImageUrl))
+        {
+            File.Delete(animeEntity.ImageUrl);
+        }
         foreach (var frame in animeEntity.Frames)
         {
-            File.Delete(frame);
+            if (File.Exists(frame))
+            {
+                File.Delete(frame);
+            }
         }
     }
 }

@@ -54,7 +54,6 @@ namespace KvolikDubBackend.Migrations
                         .HasColumnType("text[]");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsMonophonic")
@@ -70,6 +69,9 @@ namespace KvolikDubBackend.Migrations
 
                     b.Property<string>("PlayerLink")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PreviewVideoUrl")
                         .HasColumnType("text");
 
                     b.Property<int?>("PrimarySource")
@@ -173,6 +175,9 @@ namespace KvolikDubBackend.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PreviewVideoUrl")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("ReleaseFrom")

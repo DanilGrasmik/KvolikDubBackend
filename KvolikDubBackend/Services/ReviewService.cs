@@ -191,7 +191,7 @@ public class ReviewService : IReviewService
         {
             if (text.Contains(word.Word))
             {
-                throw new NotAcceptableException("Bad word in review");
+                throw new NotAcceptableException("Плохое слово в комментарии");
             }
         }
     }

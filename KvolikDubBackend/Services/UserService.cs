@@ -103,7 +103,6 @@ public class UserService : IUserService
         return "Logged out";
     }
 
-    //todo: оценки аниме id + grade
     public async Task<ProfileInfoDto> GetProfile(string email)
     {
         var userEntity = await _context
@@ -181,6 +180,16 @@ public class UserService : IUserService
 
     private async Task CheckRegisterValidation(UserRegisterDto userRegisterDto)
     {
+        var badWords = await _context
+            .BadWords
+            .ToListAsync();
+        foreach (var word in badWords)
+        {
+            if (userRegisterDto.name.Contains(word.Word))
+            {
+                throw new NotAcceptableException("Плохое слово в имени пользователя");
+            }
+        }
         Regex regex = new Regex(@"[a-zA-Z]+\w*@[a-zA-Z]+\.[a-zA-Z]+");
         MatchCollection matches = regex.Matches(userRegisterDto.email);
         if (matches.Count == 0)

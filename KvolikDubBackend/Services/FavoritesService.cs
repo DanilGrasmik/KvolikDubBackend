@@ -51,6 +51,7 @@ public class FavoritesService : IFavoritesService
         foreach (var anime in userEntity.FavoriteAnimes)
         {
             var animeDto = _mapper.Map<AnimeListElementDto>(anime);
+            animeDto.averageRating = anime.AverageRating == 0 ? null : anime.AverageRating; 
             favoritesAnimeDtos.Add(animeDto);
         }
 

@@ -82,7 +82,7 @@ public class EmailService : IEmailService
         email.Body = new TextPart(TextFormat.Html) { Text = $"<h1>Ваш код {randomCode}</h1>" };
         
         using var smtp = new SmtpClient();
-        smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+        smtp.Connect("smtp.timeweb.ru", 25, SecureSocketOptions.StartTls);
         smtp.Authenticate(corpEmail, corpP);
         smtp.Send(email);
         smtp.Disconnect(true);

@@ -13,4 +13,6 @@ public class MainPagePreviewDto
     public String type { get; set; }
     
     public String? description { get; set; }
+
+    public String? previewVideoUrl { get; set; }
 }

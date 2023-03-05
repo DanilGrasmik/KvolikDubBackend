@@ -35,11 +35,34 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </None>
+      <None Include="wwwroot\Avatars\image1.jpg" />
+      <None Include="wwwroot\Avatars\image10.jpg" />
+      <None Include="wwwroot\Avatars\image11.png" />
+      <None Include="wwwroot\Avatars\image12.png" />
+      <None Include="wwwroot\Avatars\image13.png" />
+      <None Include="wwwroot\Avatars\image14.jpg" />
+      <None Include="wwwroot\Avatars\image15.png" />
+      <None Include="wwwroot\Avatars\image16.png" />
+      <None Include="wwwroot\Avatars\image17.png" />
+      <None Include="wwwroot\Avatars\image18.jpg" />
+      <None Include="wwwroot\Avatars\image2.jpg" />
+      <None Include="wwwroot\Avatars\image20.png" />
+      <None Include="wwwroot\Avatars\image21.png" />
+      <None Include="wwwroot\Avatars\image22.jpg" />
+      <None Include="wwwroot\Avatars\image23.jpg" />
+      <None Include="wwwroot\Avatars\image24.jpg" />
+      <None Include="wwwroot\Avatars\image3.jpg" />
+      <None Include="wwwroot\Avatars\image4.jpg" />
+      <None Include="wwwroot\Avatars\image5.jpg" />
+      <None Include="wwwroot\Avatars\image6.png" />
+      <None Include="wwwroot\Avatars\image7.jpg" />
+      <None Include="wwwroot\Avatars\image8.jpg" />
+      <None Include="wwwroot\Avatars\image9.jpg" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Images\Avatars" />
-      <Folder Include="Images\Frames" />
+      <Folder Include="wwwroot\Frames" />
+      <Folder Include="wwwroot\PreviewVideos" />
     </ItemGroup>
 
 </Project>

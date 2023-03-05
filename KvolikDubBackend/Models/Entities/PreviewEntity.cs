@@ -15,4 +15,6 @@ public class PreviewEntity
     public String? Description { get; set; }
     
     public DateTime? ReleaseFrom { get; set; }
+    
+    public String? PreviewVideoUrl { get; set; }
 }

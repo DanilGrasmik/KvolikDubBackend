@@ -54,3 +54,4 @@ D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\Web.config
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\MailKit.dll
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\MimeKit.dll
 D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\BouncyCastle.Crypto.dll
+D:\prog\web\KvolikDubBackend\KvolikDubBackend\bin\Debug\net7.0\KvolikDubBackend.staticwebassets.runtime.json

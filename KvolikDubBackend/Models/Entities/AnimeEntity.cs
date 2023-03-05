@@ -43,7 +43,7 @@ public class AnimeEntity
 
     public List<String>? Frames { get; set; } = new();
     
-    public String ImageUrl { get; set; }
+    public String? ImageUrl { get; set; }
     
     public String? TrailerUrl { get; set; }
     
@@ -54,6 +54,8 @@ public class AnimeEntity
     public String PlayerLink { get; set; }
     
     public bool IsMonophonic { get; set; }
+    
+    public String? PreviewVideoUrl { get; set; }
 
     public List<RatingEntity> Ratings { get; set; } = new();
     
