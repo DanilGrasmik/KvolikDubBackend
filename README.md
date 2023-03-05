@@ -1,2 +1,3 @@
 # KvolikDubBackend
-This is ASP .NET Web API for website to watch animes for voice acting team - [KvolikDub](https://vk.com/kvolikdub)
+This is ASP .NET Web API for website to watch animes.
+This project is made for the best voice acting team - [KvolikDub](https://vk.com/kvolikdub)
